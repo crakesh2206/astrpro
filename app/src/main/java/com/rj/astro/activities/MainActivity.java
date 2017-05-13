@@ -14,8 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rj.astro.R;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance;
+
+public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword,inputConfirmPassword,inputDate,inputTime;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword ,inputLayoutConfirmPassword,inputLayoutDate,inputLayoutTime;
@@ -41,7 +47,18 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_signup);
 
 
-
+        inputDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
+        inputTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               showTimePicker();
+            }
+        });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +128,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+  public void showDatePicker(){
+      Calendar now = Calendar.getInstance();
+      DatePickerDialog dpd = newInstance(
+              MainActivity.this,
+              now.get(Calendar.YEAR),
+              now.get(Calendar.MONTH),
+              now.get(Calendar.DAY_OF_MONTH)
+      );
+      dpd.show(getFragmentManager(), "Datepickerdialog");
+  }
+
+    public void showTimePicker(){
+        Calendar now = Calendar.getInstance();
+        TimePickerDialog dpd = TimePickerDialog.newInstance(
+                MainActivity.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE),
+                now.get(Calendar.SECOND),false
+        );
+        dpd.show(getFragmentManager(), "Timepickerdialog");
+    }
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        inputDate.setText(date);
+    }
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        String time = hourOfDay+":"+minute+":"+second;
+        inputTime.setText(time);
     }
 
     private class MyTextWatcher implements TextWatcher {
