@@ -5,6 +5,7 @@
     <string name="hint_name">Full Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_date">Date of Birth</string>
     <string name="hint_time">Timeof Birth</string>
