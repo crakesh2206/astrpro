@@ -19,6 +19,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:paddingLeft="20dp"
+        android:id="@+id/form"
         android:paddingRight="20dp"
         >
 
@@ -127,7 +128,19 @@
             android:layout_marginTop="40dp"
             android:textColor="@android:color/white"/>
 
+        <TextView android:id="@+id/link_to_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+
+            android:text="Already Have Account. Log in"
+            android:gravity="center"
+            android:layout_below="@+id/form"
+            android:textSize="20dip"
+            android:textColor="@color/colorAccent"/>
+
     </LinearLayout>
-</RelativeLayout>
+        <!-- Link to Registration Screen -->
+    </RelativeLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

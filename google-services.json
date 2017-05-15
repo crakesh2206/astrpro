@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "60161010330",
+    "firebase_url": "https://ratnaastrology-edab4.firebaseio.com",
+    "project_id": "ratnaastrology-edab4",
+    "storage_bucket": "ratnaastrology-edab4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60161010330:android:af1fa5ae07b2e1ea",
+        "android_client_info": {
+          "package_name": "com.rj.astro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60161010330-eti45li9nq8f7ui2l5j22g1u2l40b46a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxq3ymTzJMF_tlgS7nBHQoZKIvTbEs4R0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

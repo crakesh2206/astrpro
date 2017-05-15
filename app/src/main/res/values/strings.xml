@@ -9,7 +9,7 @@
 
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_date">Date of Birth</string>
-    <string name="hint_time">Timeof Birth</string>
+    <string name="hint_time">Time of Birth</string>
 
 
     <string name="btn_sign_up">Sign Up</string>
@@ -20,6 +20,6 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_mobile">Enter valid mobile number</string>
     <string name="err_msg_password">Enter the password</string>
-
+    <string name="err_msg_passwordlenth">minimum 5 characters</string>
 
 </resources>

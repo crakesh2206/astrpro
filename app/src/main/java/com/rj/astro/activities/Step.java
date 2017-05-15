@@ -48,7 +48,7 @@ public class Step extends AppCompatActivity {
 
         }else{
             //go to login Activity
-            Intent i = new Intent(this,MainActivity.class);
+            Intent i = new Intent(this,RegistrationActivity.class);
             startActivity(i);
             finish();
         }

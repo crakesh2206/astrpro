@@ -1,5 +1,6 @@
 package com.rj.astro.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rj.astro.R;
@@ -21,20 +23,20 @@ import java.util.Calendar;
 
 import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance;
 
-public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
+public class RegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword,inputConfirmPassword,inputDate,inputTime;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword ,inputLayoutConfirmPassword,inputLayoutDate,inputLayoutTime;
     private Button btnSignUp;
     private EditText inputMobile;
     private TextInputLayout inputLayoutMobile;
-
+    TextView tvLinktoLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        tvLinktoLogin = (TextView) findViewById(R.id.link_to_login);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
         inputLayoutMobile = (TextInputLayout) findViewById(R.id.input_layout_mobile);
@@ -70,7 +72,14 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                 submitForm();
             }
         });
-
+        tvLinktoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RegistrationActivity.this,LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
     }
@@ -178,6 +187,11 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             requestFocus(inputPassword);
             return false;
         } else {
+
+            if(inputPassword.getText().toString().length()<=5){
+                inputLayoutPassword.setError(getString(R.string.err_msg_passwordlenth));
+            }
+
             inputLayoutPassword.setErrorEnabled(false);
         }
 
@@ -186,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
   public void showDatePicker(){
       Calendar now = Calendar.getInstance();
       DatePickerDialog dpd = newInstance(
-              MainActivity.this,
+              RegistrationActivity.this,
               now.get(Calendar.YEAR),
               now.get(Calendar.MONTH),
               now.get(Calendar.DAY_OF_MONTH)
@@ -197,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     public void showTimePicker(){
         Calendar now = Calendar.getInstance();
         TimePickerDialog dpd = TimePickerDialog.newInstance(
-                MainActivity.this,
+                RegistrationActivity.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
                 now.get(Calendar.SECOND),false
@@ -212,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        String time = hourOfDay+":"+minute+":"+second;
+        String time = hourOfDay+":"+minute;
         inputTime.setText(time);
     }
 
