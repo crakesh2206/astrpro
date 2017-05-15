@@ -1,5 +1,6 @@
 package com.rj.astro.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,15 +17,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
+import com.rj.astro.volly.AppController;
+import com.rj.astro.volly.ConstantLinks;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance;
 
 public class RegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
+    private static final String ST_TAG = "register";
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword,inputConfirmPassword,inputDate,inputTime;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword ,inputLayoutConfirmPassword,inputLayoutDate,inputLayoutTime;
@@ -229,6 +241,52 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         String time = hourOfDay+":"+minute;
         inputTime.setText(time);
     }
+    public void sendDataToServer(){
+
+        // Tag used to cancel the request
+        String  tag_string_req = "string_req";
+
+        String url = "http://api.androidhive.info/volley/string_response.html";
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                ConstantLinks.REGISTER_USER, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(ST_TAG, response.toString());
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(ST_TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("name", "Androidhive");
+                params.put("email", "abc@androidhive.info");
+                params.put("password", "password123");
+               // Further Changes HERE need
+
+                return params;
+            }};
+
+       // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+
 
     private class MyTextWatcher implements TextWatcher {
 
