@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     private EditText inputName, inputEmail, inputPassword,inputConfirmPassword,inputDate,inputTime;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword ,inputLayoutConfirmPassword,inputLayoutDate,inputLayoutTime;
     private Button btnSignUp;
+    private EditText inputMobile;
+    private TextInputLayout inputLayoutMobile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +37,14 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
+        inputLayoutMobile = (TextInputLayout) findViewById(R.id.input_layout_mobile);
         inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
         inputLayoutConfirmPassword = (TextInputLayout) findViewById(R.id.input_layout_conf_password);
         inputLayoutDate = (TextInputLayout) findViewById(R.id.input_layout_date);
         inputLayoutTime = (TextInputLayout) findViewById(R.id.input_layout_time);
         inputName = (EditText) findViewById(R.id.input_name);
         inputEmail = (EditText) findViewById(R.id.input_email);
+        inputMobile = (EditText)findViewById(R.id.input_mobile);
         inputPassword = (EditText) findViewById(R.id.input_password);
         inputConfirmPassword = (EditText) findViewById(R.id.input_conf_password);
         inputDate = (EditText) findViewById(R.id.input_date);
@@ -78,12 +83,44 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             return;
         }
 
+        if (!validateMobile()) {
+            return;
+        }
         if (!validatePassword()) {
             return;
         }
-
+        if (!validateConfirmPassword()) {
+            return;
+        }
+        if (!validateDateTime()) {
+            return;
+        }
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
+
+    private boolean validateDateTime() {
+        if (inputDate.getText().toString().trim().isEmpty()) {
+            inputLayoutDate.setError(getString(R.string.err_msg_date));
+            requestFocus(inputDate);
+            return false;
+        } else {
+            inputLayoutDate.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateConfirmPassword() {
+        if (!inputPassword.getText().toString().equals(inputConfirmPassword.getText().toString())) {
+            inputLayoutConfirmPassword.setError(getString(R.string.err_msg_conf_pass));
+            requestFocus(inputConfirmPassword);
+            return false;
+        } else {
+            inputLayoutConfirmPassword.setErrorEnabled(false);
+        }
+        return true;
+    }
+
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -104,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+    private boolean isValidMobile(String phone) {
+        return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
     private boolean validateEmail() {
         String email = inputEmail.getText().toString().trim();
 
@@ -113,6 +153,20 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             return false;
         } else {
             inputLayoutEmail.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateMobile() {
+        String mobile = inputMobile.getText().toString().trim();
+
+        if (mobile.isEmpty() || !isValidMobile(mobile)) {
+            inputLayoutMobile.setError(getString(R.string.err_msg_mobile));
+            requestFocus(inputMobile);
+            return false;
+        } else {
+            inputLayoutMobile.setErrorEnabled(false);
         }
 
         return true;

@@ -4,6 +4,7 @@
 
     <string name="hint_name">Full Name</string>
     <string name="hint_email">Email</string>
+    <string name="hint_mobile">Mobile Number</string>
     <string name="hint_password">Password</string>
 
     <string name="hint_confirm_password">Confirm Password</string>
@@ -14,7 +15,10 @@
     <string name="btn_sign_up">Sign Up</string>
 
     <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_conf_pass">Confirm password not matched</string>
+    <string name="err_msg_date">Enter your birth date</string>
     <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_mobile">Enter valid mobile number</string>
     <string name="err_msg_password">Enter the password</string>
 
 
