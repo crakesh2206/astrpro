@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
  * Created by yashDev on 05/05/16.
  */
 public class PrefManager {
+    private static final String TOKEN = "device_id";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context _context;
@@ -71,7 +72,12 @@ public class PrefManager {
     }
 
 
+    public void setToken(String refreshedToken) {
+        editor.putString(TOKEN, refreshedToken);
+        editor.commit();
+    }
 
-
-
+    public String getToken() {
+        return pref.getString(TOKEN,null);
+    }
 }

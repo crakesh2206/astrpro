@@ -96,6 +96,16 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
 
     }
     private void submitForm() {
+//
+      String name =  inputName.getText().toString().trim();
+      String  email =  inputEmail.getText().toString().trim();
+      String password =  inputPassword.getText().toString().trim();
+       String mobile =  inputMobile.getText().toString().trim();
+       String date =  inputDate.getText().toString().trim();
+       String time =  inputTime.getText().toString().trim();
+       String usertype = "user";
+
+
         if (!validateName()) {
             return;
         }
@@ -116,6 +126,16 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         if (!validateDateTime()) {
             return;
         }
+         if(name.equals("admin")){
+             Intent i = new Intent(this,AdminPanelActivity.class);
+             startActivity(i);
+         }else{
+             Intent i = new Intent(this,NormalUserActivity.class);
+             startActivity(i);
+         }
+
+
+         // sendDataToServer(name,email,password,usertype,token,gender,date,time);
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
@@ -241,7 +261,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         String time = hourOfDay+":"+minute;
         inputTime.setText(time);
     }
-    public void sendDataToServer(){
+    public void sendDataToServer(final String name,final String email, final String password, final String usertype, final String token, final String gender, String dob, String dot){
 
         // Tag used to cancel the request
         String  tag_string_req = "string_req";
@@ -273,9 +293,12 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("password", "password123");
+                params.put("username",name);
+                params.put("email",email);
+                params.put("password", password);
+                params.put("usertype", usertype);
+                params.put("gender",gender );
+                params.put("devicetoken", token);
                // Further Changes HERE need
 
                 return params;
