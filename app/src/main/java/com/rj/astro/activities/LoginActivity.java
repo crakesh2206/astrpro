@@ -1,58 +1,174 @@
 package com.rj.astro.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
+import com.rj.astro.databases.PrefManager;
+import com.rj.astro.volly.AppController;
+import com.rj.astro.volly.ConstantLinks;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Codefingers-1 on 17-05-2017.
+ */
 
 public class LoginActivity extends AppCompatActivity {
-   Button login;
-    TextView toRegister;
+
+    private static final String ST_TAG = "login";
+    private CheckBox mCbShowPwd;
+    EditText etUsername,etPassword;
+    Button btnLogin;
+    private ProgressDialog pDialog;
+    private PrefManager pRef;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login);
 
-        login = (Button)findViewById(R.id.btn_login);
-        toRegister = (TextView)findViewById(R.id.link_to_register);
-       login.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent i = new Intent(LoginActivity.this,NormalUserActivity.class);
-               startActivity(i);
-           }
-       });
+       pDialog = new ProgressDialog(LoginActivity.this);
+        pDialog.setMessage("Loading...");
 
+        pRef = new PrefManager(this);
+        btnLogin = (Button)findViewById(R.id.buttonLogin);
+        etUsername = (EditText)findViewById(R.id.editTextuser);
+        etPassword = (EditText)findViewById(R.id.editTextPassword);
+        // get the show/hide password Checkbox
+        mCbShowPwd = (CheckBox) findViewById(R.id.cbShowPwd);
+        // when user clicks on this checkbox, this is the handler.
+        mCbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        toRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this,RegistrationActivity.class);
-                startActivity(i);
-                finish();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // checkbox status is changed from uncheck to checked.
+                if (!isChecked) {
+                    // show password
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
             }
         });
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               String userName= etUsername.getText().toString().trim();
+               String password = etPassword.getText().toString().trim();
+
+                if(!userName.isEmpty() && !password.isEmpty()){
+                     sendDataToServer(userName,password);
+                }else{
+                    Toast.makeText(LoginActivity.this,"Please fill Details",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
+            }
+        });
+
     }
+    public void sendDataToServer(final String username,final String password){
+
+        // Tag used to cancel the request
+        String  tag_string_req = "string_req_TeacherLogin";
+
+        pDialog.show();
+
+        StringRequest strReqTeacherLogin = new StringRequest(Request.Method.POST,
+                ConstantLinks.REGISTER_USER, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(ST_TAG, response.toString());
+                pDialog.hide();
+                JSONArray jsonArray = null;
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    jsonArray = obj.getJSONArray("userdata");
+                    for(int i=0; i<jsonArray.length(); i++){
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                        String sTeacherId = jsonObject.getString("teacherID");
+                        String sName = jsonObject.getString("name");
+                        String sDesignation = jsonObject.getString("designation");
+                        String sDob = jsonObject.getString("dob");
+                        String sSex = jsonObject.getString("sex");
+                        String sReligion = jsonObject.getString("religion");
+                        String sEmail = jsonObject.getString("email");
+                        String sPhone = jsonObject.getString("phone");
+                        String sAddress = jsonObject.getString("address");
+                        String sJod = jsonObject.getString("jod");
+                        String sPhoto = jsonObject.getString("photo");
+                        String sUserName = jsonObject.getString("username");
+                        String sPassword = jsonObject.getString("password");
+
+                       if(sSex.equals("Male")){
+                           pRef.setLogIn(true);
+                           Intent intent = new Intent(LoginActivity.this,NormalUserActivity.class);
+                           startActivity(intent);
+                           finish();
+                       }
+
+
+                    }
+
+
+
+                } catch (JSONException e) {
+
+                }
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(ST_TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email",username);
+                params.put("password", password);
+
+
+                return params;
+            }};
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReqTeacherLogin, tag_string_req);
+
+    }
+
 }
