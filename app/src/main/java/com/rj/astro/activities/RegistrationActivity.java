@@ -14,8 +14,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
+import com.rj.astro.databases.PrefManager;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -36,6 +38,8 @@ import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInsta
 
 public class RegistrationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
     private static final String ST_TAG = "register";
+    private RadioGroup radioSexGroup;
+    private RadioButton radioSexButton;
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword,inputConfirmPassword,inputDate,inputTime;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword ,inputLayoutConfirmPassword,inputLayoutDate,inputLayoutTime;
@@ -43,11 +47,15 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
     private EditText inputMobile;
     private TextInputLayout inputLayoutMobile;
     TextView tvLinktoLogin;
+    private PrefManager pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+         pref = new PrefManager(this);
+        radioSexGroup=(RadioGroup)findViewById(R.id.radioGroup);
         tvLinktoLogin = (TextView) findViewById(R.id.link_to_login);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
@@ -104,7 +112,9 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
        String date =  inputDate.getText().toString().trim();
        String time =  inputTime.getText().toString().trim();
        String usertype = "user";
-
+        int selectedId=radioSexGroup.getCheckedRadioButtonId();
+        radioSexButton=(RadioButton)findViewById(selectedId);
+        String gender = radioSexButton.getText().toString().trim();
 
         if (!validateName()) {
             return;
@@ -134,9 +144,13 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
              startActivity(i);
          }
 
+        String token = pref.getToken();
+                  if(token!=null){
+                      sendDataToServer(name,email,mobile,password,usertype,token,gender,date,time);
+                  }
 
-         // sendDataToServer(name,email,password,usertype,token,gender,date,time);
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+
+
     }
 
     private boolean validateDateTime() {
@@ -261,12 +275,12 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         String time = hourOfDay+":"+minute;
         inputTime.setText(time);
     }
-    public void sendDataToServer(final String name,final String email, final String password, final String usertype, final String token, final String gender, String dob, String dot){
+    public void sendDataToServer(final String name, final String email, final String password, final String usertype, final String token, final String gender, final String dob, final String dot, final String mobile){
 
         // Tag used to cancel the request
         String  tag_string_req = "string_req";
 
-        String url = "http://api.androidhive.info/volley/string_response.html";
+
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -297,7 +311,10 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
                 params.put("email",email);
                 params.put("password", password);
                 params.put("usertype", usertype);
-                params.put("gender",gender );
+                params.put("gender",gender);
+                params.put("mobile",mobile);
+                params.put("dob",dob);
+                params.put("dot",dot);
                 params.put("devicetoken", token);
                // Further Changes HERE need
 
