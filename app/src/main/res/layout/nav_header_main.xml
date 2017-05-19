@@ -9,8 +9,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
+            android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/drawerimg"/>
+            android:background="@drawable/drawerimg" />
 
 </LinearLayout>

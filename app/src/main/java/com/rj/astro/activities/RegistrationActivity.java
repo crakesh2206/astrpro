@@ -74,13 +74,13 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         btnSignUp = (Button) findViewById(R.id.btn_signup);
 
 
-        inputDate.setOnClickListener(new View.OnClickListener() {
+        inputLayoutDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
             }
         });
-        inputTime.setOnClickListener(new View.OnClickListener() {
+        inputLayoutTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                showTimePicker();
@@ -136,18 +136,12 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         if (!validateDateTime()) {
             return;
         }
-         if(name.equals("admin")){
-             Intent i = new Intent(this,AdminPanelActivity.class);
-             startActivity(i);
-         }else{
-             Intent i = new Intent(this,NormalUserActivity.class);
-             startActivity(i);
-         }
+
 
         String token = pref.getToken();
-                  if(token!=null){
-                      sendDataToServer(name,email,mobile,password,usertype,token,gender,date,time);
-                  }
+//                  if(token!=null){
+                      sendDataToServer(name,email,password,usertype,token,gender,date,time,mobile,"sojitra,Gujarat,India");
+
 
 
 
@@ -275,7 +269,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         String time = hourOfDay+":"+minute;
         inputTime.setText(time);
     }
-    public void sendDataToServer(final String name, final String email, final String password, final String usertype, final String token, final String gender, final String dob, final String dot, final String mobile){
+    public void sendDataToServer(final String name, final String email, final String password, final String usertype, final String token, final String gender, final String dob, final String dot, final String mobile, final String birthplace){
 
         // Tag used to cancel the request
         String  tag_string_req = "string_req";
@@ -286,7 +280,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.GET,
+        StringRequest strReq = new StringRequest(Request.Method.POST,
                 ConstantLinks.REGISTER_USER, new Response.Listener<String>() {
 
             @Override
@@ -309,13 +303,15 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("username",name);
                 params.put("email",email);
+                params.put("mobile",mobile);
                 params.put("password", password);
                 params.put("usertype", usertype);
                 params.put("gender",gender);
-                params.put("mobile",mobile);
+                params.put("devicetoken", token);
                 params.put("dob",dob);
                 params.put("dot",dot);
-                params.put("devicetoken", token);
+                params.put("birthplace",birthplace);
+
                // Further Changes HERE need
 
                 return params;

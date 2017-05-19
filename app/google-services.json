@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "60161010330-dbfnac28bghtc6du951q76p57ctdei44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rj.astro",
+            "certificate_hash": "47c867ad4e3757ca3d4454a4e2e67a698e995eae"
+          }
+        },
+        {
           "client_id": "60161010330-eti45li9nq8f7ui2l5j22g1u2l40b46a.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60161010330-eti45li9nq8f7ui2l5j22g1u2l40b46a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

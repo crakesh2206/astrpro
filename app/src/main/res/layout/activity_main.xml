@@ -32,6 +32,7 @@
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:singleLine="true"
                 android:hint="@string/hint_name" />
         </android.support.design.widget.TextInputLayout>
@@ -44,6 +45,7 @@
             <EditText
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/hint_email" />
@@ -58,6 +60,7 @@
                 android:id="@+id/input_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:inputType="textEmailAddress"
                 android:hint="@string/hint_mobile" />
         </android.support.design.widget.TextInputLayout>
@@ -70,6 +73,7 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:inputType="textPassword"
                 android:hint="@string/hint_password" />
         </android.support.design.widget.TextInputLayout>
@@ -84,12 +88,15 @@
                 android:id="@+id/input_conf_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:inputType="textPassword"
                 android:hint="@string/hint_confirm_password" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:orientation="horizontal"
-
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -145,6 +152,8 @@
             <EditText
                 android:id="@+id/input_date"
                 android:layout_width="match_parent"
+
+                android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/hint_date" />
@@ -156,6 +165,8 @@
             android:layout_height="wrap_content">
 
             <EditText
+
+                android:layout_marginLeft="5dp"
                 android:id="@+id/input_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,12 +185,12 @@
         <TextView android:id="@+id/link_to_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="15dip"
 
             android:text="Already Have Account. Log in"
             android:gravity="center"
             android:layout_below="@+id/form"
-            android:textSize="20dip"
+            android:textSize="15dip"
             android:textColor="@color/colorAccent"/>
 
     </LinearLayout>
