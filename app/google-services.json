@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "60161010330",
-    "firebase_url": "https://ratnaastrology-edab4.firebaseio.com",
-    "project_id": "ratnaastrology-edab4",
-    "storage_bucket": "ratnaastrology-edab4.appspot.com"
+    "project_number": "975662479845",
+    "firebase_url": "https://myastro-82e19.firebaseio.com",
+    "project_id": "myastro-82e19",
+    "storage_bucket": "myastro-82e19.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:60161010330:android:af1fa5ae07b2e1ea",
+        "mobilesdk_app_id": "1:975662479845:android:af1fa5ae07b2e1ea",
         "android_client_info": {
           "package_name": "com.rj.astro"
         }
       },
       "oauth_client": [
         {
-          "client_id": "60161010330-dbfnac28bghtc6du951q76p57ctdei44.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.rj.astro",
-            "certificate_hash": "47c867ad4e3757ca3d4454a4e2e67a698e995eae"
-          }
-        },
-        {
-          "client_id": "60161010330-eti45li9nq8f7ui2l5j22g1u2l40b46a.apps.googleusercontent.com",
+          "client_id": "975662479845-6q4vehcm0u7ujl4q1m7vlk678q8p3tpq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxq3ymTzJMF_tlgS7nBHQoZKIvTbEs4R0"
+          "current_key": "AIzaSyBgHnSDHCu0ySQGsdpdvQXHijVNtwEilEo"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "60161010330-eti45li9nq8f7ui2l5j22g1u2l40b46a.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

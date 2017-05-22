@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,11 +18,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
 import com.rj.astro.databases.PrefManager;
@@ -29,6 +32,9 @@ import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -48,6 +54,8 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
     private TextInputLayout inputLayoutMobile;
     TextView tvLinktoLogin;
     private PrefManager pref;
+    private TextInputLayout inputLayoutPlace;
+    private EditText inputPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         inputLayoutConfirmPassword = (TextInputLayout) findViewById(R.id.input_layout_conf_password);
         inputLayoutDate = (TextInputLayout) findViewById(R.id.input_layout_date);
         inputLayoutTime = (TextInputLayout) findViewById(R.id.input_layout_time);
+        inputLayoutPlace = (TextInputLayout) findViewById(R.id.input_layout_place);
         inputName = (EditText) findViewById(R.id.input_name);
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputMobile = (EditText)findViewById(R.id.input_mobile);
@@ -71,19 +80,26 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         inputConfirmPassword = (EditText) findViewById(R.id.input_conf_password);
         inputDate = (EditText) findViewById(R.id.input_date);
         inputTime = (EditText) findViewById(R.id.input_time);
+        inputPlace = (EditText) findViewById(R.id.input_place);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
 
 
-        inputLayoutDate.setOnClickListener(new View.OnClickListener() {
+
+        inputDate.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+
                 showDatePicker();
+                return true;
             }
         });
-        inputLayoutTime.setOnClickListener(new View.OnClickListener() {
+
+        inputTime.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-               showTimePicker();
+            public boolean onTouch(View v, MotionEvent event) {
+                showTimePicker();
+
+                return true;
             }
         });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +114,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
                 Intent i = new Intent(RegistrationActivity.this,LoginActivity.class);
                 startActivity(i);
                 finish();
+
             }
         });
 
@@ -111,11 +128,11 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
        String mobile =  inputMobile.getText().toString().trim();
        String date =  inputDate.getText().toString().trim();
        String time =  inputTime.getText().toString().trim();
-       String usertype = "user";
+       String birthplace = inputPlace.getText().toString().trim();
         int selectedId=radioSexGroup.getCheckedRadioButtonId();
         radioSexButton=(RadioButton)findViewById(selectedId);
         String gender = radioSexButton.getText().toString().trim();
-
+        String usertype = "user";
         if (!validateName()) {
             return;
         }
@@ -136,11 +153,13 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         if (!validateDateTime()) {
             return;
         }
-
+         if(!validatePlace()){
+             return;
+         }
 
         String token = pref.getToken();
 //                  if(token!=null){
-                      sendDataToServer(name,email,password,usertype,token,gender,date,time,mobile,"sojitra,Gujarat,India");
+                      sendDataToServer(name,email,password,usertype,token,gender,date,time,mobile,birthplace);
 
 
 
@@ -186,7 +205,17 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
 
         return true;
     }
+    private boolean validatePlace() {
+        if (inputPlace.getText().toString().trim().isEmpty()) {
+            inputLayoutPlace.setError(getString(R.string.err_msg_name));
+            requestFocus(inputPlace);
+            return false;
+        } else {
+            inputLayoutPlace.setErrorEnabled(false);
+        }
 
+        return true;
+    }
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -272,7 +301,7 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
     public void sendDataToServer(final String name, final String email, final String password, final String usertype, final String token, final String gender, final String dob, final String dot, final String mobile, final String birthplace){
 
         // Tag used to cancel the request
-        String  tag_string_req = "string_req";
+        String  obj_req = "obj_req";
 
 
 
@@ -280,45 +309,82 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                ConstantLinks.REGISTER_USER, new Response.Listener<String>() {
 
+
+     JSONObject params = new JSONObject();
+        try {
+            params.put("name",name);
+            params.put("email",email);
+            params.put("mobile",mobile);
+            params.put("password", password);
+            params.put("usertype", usertype);
+            params.put("gender",gender);
+            params.put("devicetoken", token);
+            params.put("dob",dob);
+            params.put("dot",dot);
+            params.put("birthplace",birthplace);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+        JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
+                ConstantLinks.REGISTER_USER, params, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                Log.d(ST_TAG, response.toString());
-                pDialog.hide();
+            public void onResponse(JSONObject response) {
+                try {
+                    String error =  response.getString("error");
+                    String resMessage =  response.getString("message");
+                    if(error.equals("true")){
 
+                        String resType =  response.getString("type");
+
+
+                        if(resType.equals("mail")){
+                            inputEmail.setError(resMessage);
+                        }
+
+                        if(resType.equals("opps") || resType.equals("unknown")){
+                            Toast.makeText(RegistrationActivity.this,resMessage,Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+
+
+                    }else{
+                        Toast.makeText(RegistrationActivity.this,resMessage,Toast.LENGTH_SHORT).show();
+                        Intent log = new Intent(RegistrationActivity.this,LoginActivity.class);
+                        startActivity(log);
+                        finish();
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+
+                pDialog.hide();
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(ST_TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
-        }){
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username",name);
-                params.put("email",email);
-                params.put("mobile",mobile);
-                params.put("password", password);
-                params.put("usertype", usertype);
-                params.put("gender",gender);
-                params.put("devicetoken", token);
-                params.put("dob",dob);
-                params.put("dot",dot);
-                params.put("birthplace",birthplace);
-
-               // Further Changes HERE need
-
-                return params;
-            }};
+        });
 
        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        AppController.getInstance().addToRequestQueue(objJsonreq, obj_req);
 
     }
 

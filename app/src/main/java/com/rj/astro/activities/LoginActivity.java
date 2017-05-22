@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    public void sendDataToServer(final String username,final String password){
+     public void sendDataToServer(final String username,final String password){
 
         // Tag used to cancel the request
         String  tag_string_req = "string_req_TeacherLogin";
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         pDialog.show();
 
         StringRequest strReqTeacherLogin = new StringRequest(Request.Method.POST,
-                ConstantLinks.REGISTER_USER, new Response.Listener<String>() {
+                ConstantLinks.LOGIN_USER, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -110,32 +110,36 @@ public class LoginActivity extends AppCompatActivity {
                 JSONArray jsonArray = null;
                 try {
                     JSONObject obj = new JSONObject(response);
-                    jsonArray = obj.getJSONArray("userdata");
-                    for(int i=0; i<jsonArray.length(); i++){
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                        String sTeacherId = jsonObject.getString("teacherID");
-                        String sName = jsonObject.getString("name");
-                        String sDesignation = jsonObject.getString("designation");
-                        String sDob = jsonObject.getString("dob");
-                        String sSex = jsonObject.getString("sex");
-                        String sReligion = jsonObject.getString("religion");
-                        String sEmail = jsonObject.getString("email");
-                        String sPhone = jsonObject.getString("phone");
-                        String sAddress = jsonObject.getString("address");
-                        String sJod = jsonObject.getString("jod");
-                        String sPhoto = jsonObject.getString("photo");
-                        String sUserName = jsonObject.getString("username");
-                        String sPassword = jsonObject.getString("password");
+                   if(!obj.has("error")){
 
-                       if(sSex.equals("Male")){
+                       jsonArray = obj.getJSONArray("result");
+                       for(int i=0; i<jsonArray.length(); i++){
+                           JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                           String sUserId = jsonObject.getString("id");
+                           String sUserName = jsonObject.getString("name");
+                           String sEmail = jsonObject.getString("email");
+                           String sMobile = jsonObject.getString("mobile");
+                           String sUsertype = jsonObject.getString("usertype");
+                           String sGender = jsonObject.getString("gender");
+                           String sDob = jsonObject.getString("dob");
+                           String sDot = jsonObject.getString("dot");
+                           String sBirthplace = jsonObject.getString("birthplace");
+
+
+
+
+
+                       }
+
                            pRef.setLogIn(true);
+
                            Intent intent = new Intent(LoginActivity.this,NormalUserActivity.class);
                            startActivity(intent);
                            finish();
-                       }
 
 
-                    }
+
+                   }
 
 
 

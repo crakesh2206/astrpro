@@ -1,4 +1,4 @@
-package com.rj.astro.firebase;
+package com.rj.astro.simplified;
 
 import android.util.Log;
 

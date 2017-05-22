@@ -1,4 +1,4 @@
-package com.rj.astro.firebase;
+package com.rj.astro.simplified;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -8,18 +8,20 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.rj.astro.databases.PrefManager;
 
 /**
- * Created by Codefingers-1 on 15-05-2017.
+ * Created by Rakesh on 21/05/2017.
  */
 
-public class MyFireBaseInstaceIDService extends FirebaseInstanceIdService {
-       String TAG = "mytag";
+
+public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+
+    private static final String TAG = "MyFirebaseIIDService";
     private PrefManager pref;
 
     @Override
     public void onTokenRefresh() {
-        // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
+
         Toast.makeText(getApplicationContext(),refreshedToken,Toast.LENGTH_SHORT).show();
 
 
