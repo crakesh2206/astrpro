@@ -1,7 +1,6 @@
 package com.rj.astro.simplified;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -22,7 +21,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        Toast.makeText(getApplicationContext(),refreshedToken,Toast.LENGTH_SHORT).show();
+
 
 
         // TODO: Implement this method to send any registration to your app's servers.

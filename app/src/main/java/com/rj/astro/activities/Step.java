@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.rj.astro.R;
 import com.rj.astro.databases.PrefManager;
 
 /**
@@ -16,7 +17,7 @@ public class Step extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.layout.test_list_item);
+        setContentView(R.layout.slps);
         prefs = new PrefManager(this);
 
         try {
