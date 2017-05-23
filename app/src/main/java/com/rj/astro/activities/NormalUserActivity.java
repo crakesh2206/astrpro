@@ -1,22 +1,31 @@
 package com.rj.astro.activities;
 
+
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.icons.MaterialDrawerFont;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
+import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
+import com.rj.astro.frags.Myrequest;
 
 public class NormalUserActivity extends AppCompatActivity {
   Drawer result;
     private Toolbar toolbar;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +33,7 @@ public class NormalUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_normal_user);
            toolbar = (Toolbar) findViewById(R.id.toolbar);
 //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("User");
+        PrimaryDrawerItem itemMyrequest =  new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle).withTextColor(Color.GREEN);
         SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("Chat");
 
 //create the drawer and remember the `Drawer` result object
@@ -32,21 +41,53 @@ public class NormalUserActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar).withHeader(R.layout.nav_header_main)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("My Requests").withIcon(MaterialDrawerFont.Icon.mdf_person),
-                        new PrimaryDrawerItem().withName("Inbox").withIcon(MaterialDrawerFont.Icon.mdf_person),
-                        new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(MaterialDrawerFont.Icon.mdf_person),
+                       itemMyrequest,
+                        new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope).withTextColor(Color.GREEN),
+                        new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe).withTextColor(Color.GREEN),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Contant Us").withIcon(MaterialDrawerFont.Icon.mdf_person),
-                        new PrimaryDrawerItem().withName("Rate Us").withIcon(MaterialDrawerFont.Icon.mdf_person))
+                        new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao).withTextColor(Color.GREEN),
+                        new PrimaryDrawerItem().withName("Rate Us").withIcon(FontAwesome.Icon.faw_heart).withTextColor(Color.GREEN))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
-                        return false;
-                    }
-                })
-                .build();
+                        if (drawerItem != null && drawerItem instanceof Nameable) {
 
+                            if (position == 0) {
+
+                                Fragment f = Myrequest.newInstance();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+
+                            }
+
+
+
+
+
+
+                        }
+                    return true;
+                    }
+                }).withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        KeyboardUtil.hideKeyboard(NormalUserActivity.this);
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                    }
+
+
+                }).withFireOnInitialOnClick(true).withSavedInstance(savedInstanceState)
+                .build();
+          result.updateItem(itemMyrequest.withBadge("14").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)));
 
     }
 }

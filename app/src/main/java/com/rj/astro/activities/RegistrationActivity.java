@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,9 +22,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.volly.AppController;
@@ -37,8 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance;
 
@@ -158,10 +153,10 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
          }
 
         String token = pref.getToken();
-//                  if(token!=null){
-                      sendDataToServer(name,email,password,usertype,token,gender,date,time,mobile,birthplace);
+                  if(token!=null) {
+                      sendDataToServer(name, email, password, usertype, token, gender, date, time, mobile, birthplace);
 
-
+                  }
 
 
     }
