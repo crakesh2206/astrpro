@@ -18,7 +18,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:gravity="center"
+                android:gravity="top"
                 android:paddingLeft="20dp"
                 android:id="@+id/form"
                 android:paddingRight="20dp"
@@ -39,40 +39,61 @@
 
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_lpassword"
+                    android:id="@+id/input_layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/input_lpassword"
+                        android:id="@+id/input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:hint="@string/hint_password" />
+                        android:inputType="textEmailAddress"
+                        android:hint="Email Id" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:hint="Email Id" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:background="@drawable/border"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:singleLine="false"
+                        android:lines="5"
+                        android:id="@+id/input_feedback"
+                        android:hint="feedback"
+                        android:layout_marginLeft="10dip"
+                        android:layout_marginRight="10dip" />
+
                 </android.support.design.widget.TextInputLayout>
 
 
 
 
-
-                <Button android:id="@+id/btn_login"
+                <Button android:id="@+id/btn_submit"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_sign_up"
+                    android:text="Submit"
                     android:background="@color/colorPrimary"
                     android:layout_marginTop="40dp"
                     android:textColor="@android:color/white"/>
 
-                <TextView android:id="@+id/link_to_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dip"
 
-                    android:text="Register Here"
-                    android:gravity="center"
-                    android:layout_below="@+id/form"
-                    android:textSize="20dip"
-                    android:textColor="@color/colorAccent"/>
 
             </LinearLayout>
             <!-- Link to Registration Screen -->

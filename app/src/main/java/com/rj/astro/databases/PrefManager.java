@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
  */
 public class PrefManager {
     private static final String TOKEN = "device_id";
+    private static final String USER_ID = "userId";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context _context;
@@ -29,7 +30,8 @@ public class PrefManager {
     private static final String IS_USERTYPE_ADMIN = "isUserAdmin";
     private static final String USER_NAME = "username";
     private static final String IS_LOG_IN = "Islogin";
-	
+
+
     public PrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -79,5 +81,14 @@ public class PrefManager {
 
     public String getToken() {
         return pref.getString(TOKEN,null);
+    }
+
+
+    public void setUserId(String id) {
+        editor.putString(USER_ID, id);
+        editor.commit();
+    }
+    public String getUserId() {
+        return pref.getString(USER_ID,null);
     }
 }

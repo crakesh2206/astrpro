@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
+import com.rj.astro.frags.Feedback;
 import com.rj.astro.frags.Myrequest;
 
 public class NormalUserActivity extends AppCompatActivity {
@@ -32,6 +33,8 @@ public class NormalUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_user);
            toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+          fragmentManager = getSupportFragmentManager();
 //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemMyrequest =  new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle).withTextColor(Color.GREEN);
         SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("Chat");
@@ -42,20 +45,26 @@ public class NormalUserActivity extends AppCompatActivity {
                 .withToolbar(toolbar).withHeader(R.layout.nav_header_main)
                 .addDrawerItems(
                        itemMyrequest,
-                        new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope).withTextColor(Color.GREEN),
-                        new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe).withTextColor(Color.GREEN),
+                        new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope),
+                        new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao).withTextColor(Color.GREEN),
-                        new PrimaryDrawerItem().withName("Rate Us").withIcon(FontAwesome.Icon.faw_heart).withTextColor(Color.GREEN))
+                        new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao),
+                        new PrimaryDrawerItem().withName("Rate Us").withIcon(FontAwesome.Icon.faw_heart))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
                         if (drawerItem != null && drawerItem instanceof Nameable) {
 
-                            if (position == 0) {
+                            if (position == 1) {
 
                                 Fragment f = Myrequest.newInstance();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+
+                            }
+                            if (position == 3) {
+
+                                Fragment f = Feedback.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
                             }
@@ -64,9 +73,9 @@ public class NormalUserActivity extends AppCompatActivity {
 
 
 
-
                         }
-                    return true;
+
+                    return false;
                     }
                 }).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -86,7 +95,7 @@ public class NormalUserActivity extends AppCompatActivity {
 
 
                 }).withFireOnInitialOnClick(true).withSavedInstance(savedInstanceState)
-                .build();
+                .withSelectedItem(0).build();
           result.updateItem(itemMyrequest.withBadge("14").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)));
 
     }
