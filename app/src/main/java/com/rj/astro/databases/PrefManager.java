@@ -17,6 +17,11 @@ import android.content.SharedPreferences;
 public class PrefManager {
     private static final String TOKEN = "device_id";
     private static final String USER_ID = "userId";
+    private static final String USE_MOBILE = "mobile";
+    private static final String USE_GENDER = "gender";
+    private static final String USE_DOB = "dob";
+    private static final String USE_DOT = "dot";
+    private static final String USE_BIRTHPLACE = "birthplace";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context _context;
@@ -30,6 +35,7 @@ public class PrefManager {
     private static final String IS_USERTYPE_ADMIN = "isUserAdmin";
     private static final String USER_NAME = "username";
     private static final String IS_LOG_IN = "Islogin";
+    private String dot;
 
 
     public PrefManager(Context context) {
@@ -90,5 +96,30 @@ public class PrefManager {
     }
     public String getUserId() {
         return pref.getString(USER_ID,null);
+    }
+
+    public void setUserMobile(String userMobile) {
+        editor.putString(USE_MOBILE,userMobile);
+        editor.commit();
+    }
+
+    public void setGender(String gender) {
+        editor.putString(USE_GENDER,gender);
+        editor.commit();
+    }
+
+    public void setDOB(String DOB) {
+        editor.putString(USE_DOB,DOB);
+        editor.commit();
+    }
+
+    public void setDot(String dot) {
+        editor.putString(USE_DOT,dot);
+        editor.commit();
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        editor.putString(USE_BIRTHPLACE,birthPlace);
+        editor.commit();
     }
 }

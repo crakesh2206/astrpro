@@ -125,13 +125,27 @@ public class LoginActivity extends AppCompatActivity {
                            String sDot = jsonObject.getString("dot");
                            String sBirthplace = jsonObject.getString("birthplace");
 
-
+                           if(sUsertype.equals("admin")){
+                               pRef.setUserIsAdmin(true);
+                           }else{
+                               pRef.setUserIsAdmin(false);
+                               pRef.setUserId(sUserId);
+                               pRef.setUserName(sUserName);
+                               pRef.setUserEmail(sEmail);
+                               pRef.setUserMobile(sMobile);
+                               pRef.setGender(sGender);
+                               pRef.setDOB(sDob);
+                               pRef.setDot(sDot);
+                               pRef.setBirthPlace(sBirthplace);
+                           }
 
 
 
                        }
 
                            pRef.setLogIn(true);
+
+
 
                            Intent intent = new Intent(LoginActivity.this,NormalUserActivity.class);
                            startActivity(intent);
