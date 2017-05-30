@@ -19,11 +19,13 @@
         <activity android:name=".activities.NormalUserActivity"
                         />
 
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity"/>
+
+        <activity android:name=".activities.Add"/>
 
 
 
-        </activity>
+
 
         <activity android:name=".activities.Step">
             <intent-filter>

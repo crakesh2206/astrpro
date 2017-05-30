@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.rj.astro.R;
-import com.rj.astro.activities.AskRequset;
+import com.rj.astro.activities.Add;
 
 
 /**
@@ -34,7 +34,8 @@ public class Myrequest extends Fragment {
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(),AskRequset.class);
+                Intent i = new Intent(getActivity(),Add.class);
+                startActivity(i);
             }
         });
 

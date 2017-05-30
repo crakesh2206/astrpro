@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:id="@+id/lClass"
+        android:layout_height="wrap_content"
+         android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="67dp">
+        <TextView
+            android:text="Catagory :"
+            android:layout_width="0dp"
+            android:textColor="@color/md_black_1000"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvselect_cat"
+            android:layout_weight="0.5"
+
+            />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:id="@+id/spinnerCatagory" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:id="@+id/lSec"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lClass"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:text="Subcatagoty :"
+            android:textColor="@color/md_black_1000"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvselect_subcat"
+            android:layout_weight="0.5"
+
+            />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:id="@+id/spinnerSubCatagory" />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pBarMain"
+        android:visibility="gone"
+        android:layout_below="@+id/lClass"
+        android:layout_centerHorizontal="true" />
+
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/etques"
+        android:padding="10dp"
+        android:background="@drawable/border"
+        android:inputType="textMultiLine"
+         android:lines="8"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:minLines="6"
+        android:hint="Type Question"
+    android:gravity="top|left"
+    android:maxLines="10"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:scrollbars="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:weightSum="2"
+
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etques"
+        android:layout_alignLeft="@+id/etques"
+        android:layout_alignStart="@+id/etques">
+    <Button
+        android:text="Ask"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/md_white_1000"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnsub"
+         />
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Cancle"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/md_white_1000"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCancle"
+            />
+    </LinearLayout>
+</RelativeLayout>
