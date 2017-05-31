@@ -17,6 +17,7 @@
         <activity android:name=".activities.AdminPanelActivity" />
 
         <activity android:name=".activities.NormalUserActivity"
+
                         />
 
         <activity android:name=".activities.LoginActivity"/>

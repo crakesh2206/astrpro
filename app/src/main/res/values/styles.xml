@@ -1,11 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="@style/MaterialDrawerTheme.Light.DarkToolbar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="material_drawer_background">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/md_grey_400</item>
+        <item name="material_drawer_selected_text">@color/md_blue_grey_900</item>
+        <item name="material_drawer_primary_text">@color/md_black_1000</item>
     </style>
 
 </resources>

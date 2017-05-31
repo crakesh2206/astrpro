@@ -1,7 +1,9 @@
 package com.rj.astro.activities;
 
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
+import com.rj.astro.frags.ContactUs;
 import com.rj.astro.frags.Feedback;
 import com.rj.astro.frags.Myrequest;
 
@@ -27,7 +30,7 @@ public class NormalUserActivity extends AppCompatActivity {
   Drawer result;
     private Toolbar toolbar;
     private FragmentManager fragmentManager;
-
+    PrimaryDrawerItem itemMyrequest,itemInbox,itemFeedback,itemCOntactUs,itemRateUs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,11 @@ public class NormalUserActivity extends AppCompatActivity {
 
           fragmentManager = getSupportFragmentManager();
 //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem itemMyrequest =  new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle).withTextColor(Color.GREEN);
+        PrimaryDrawerItem itemMyrequest =  new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle);
+        itemInbox = new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope);
+        itemFeedback = new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe);
+        itemCOntactUs = new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao);
+        itemRateUs = new PrimaryDrawerItem().withName("Rate Us").withIcon(FontAwesome.Icon.faw_heart);
         SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("Chat");
 
 //create the drawer and remember the `Drawer` result object
@@ -45,11 +52,11 @@ public class NormalUserActivity extends AppCompatActivity {
                 .withToolbar(toolbar).withHeader(R.layout.nav_header_main)
                 .addDrawerItems(
                        itemMyrequest,
-                        new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope),
-                        new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe),
+                        itemInbox             ,
+                       itemFeedback ,
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao),
-                        new PrimaryDrawerItem().withName("Rate Us").withIcon(FontAwesome.Icon.faw_heart))
+                       itemCOntactUs ,
+                        itemRateUs)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -62,14 +69,31 @@ public class NormalUserActivity extends AppCompatActivity {
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
                             }
+
+                            if (position == 2) {//inbox
+
+
+                            }
                             if (position == 3) {
 
                                 Fragment f = Feedback.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
                             }
+                            if (position == 5) {
 
+                                Fragment f = ContactUs.newInstance();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
+                            }
+                            if (position == 6) {
+
+                                // TODO Auto-generated method stub
+                                Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                                i.setData(Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName()));
+                                startActivity(i);
+
+                            }
 
 
 
