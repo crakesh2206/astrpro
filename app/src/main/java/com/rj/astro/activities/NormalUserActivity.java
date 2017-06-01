@@ -65,25 +65,25 @@ public class NormalUserActivity extends AppCompatActivity {
                         if (drawerItem != null && drawerItem instanceof Nameable) {
 
                             if (position == 1) {
-
+                                 toolbar.setTitle("My Requests");
                                 Fragment f = Myrequest.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
                             }
 
                             if (position == 2) {//inbox
-
+                                toolbar.setTitle("Inbox");
                                 Fragment f = InboxFragment.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
                             }
                             if (position == 3) {
-
+                                toolbar.setTitle("Feedbacks");
                                 Fragment f = Feedback.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
                             }
                             if (position == 5) {
-
+                                toolbar.setTitle("Contact Us");
                                 Fragment f = ContactUs.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
 
