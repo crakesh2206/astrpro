@@ -24,6 +24,7 @@ import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
 import com.rj.astro.frags.ContactUs;
 import com.rj.astro.frags.Feedback;
+import com.rj.astro.frags.InboxFragment;
 import com.rj.astro.frags.Myrequest;
 
 public class NormalUserActivity extends AppCompatActivity {
@@ -72,7 +73,8 @@ public class NormalUserActivity extends AppCompatActivity {
 
                             if (position == 2) {//inbox
 
-
+                                Fragment f = InboxFragment.newInstance();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
                             }
                             if (position == 3) {
 
