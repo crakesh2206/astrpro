@@ -47,10 +47,11 @@ public class InboxFragment extends Fragment{
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        generatedummy();
         mAdapter = new MessageAdapter(getActivity(), messageList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-         generatedummy();
+
 
 
         return root;
@@ -95,6 +96,6 @@ public class InboxFragment extends Fragment{
 //
         dbHelper = new DbHelper(getActivity());
         messageList = dbHelper.getAllQuestions(1);
-        mAdapter.notifyDataSetChanged();
+
     }
 }
