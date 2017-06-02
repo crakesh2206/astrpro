@@ -12,8 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rj.astro.R;
-import com.rj.astro.androidRecyclerView.Message;
 import com.rj.astro.androidRecyclerView.MessageAdapter;
+import com.rj.astro.databases.DbHelper;
+import com.rj.astro.databases.Questions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,9 @@ public class InboxFragment extends Fragment{
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MessageAdapter mAdapter;
-    private List<Message> messageList;
+    private List<Questions> messageList;
     private Handler handler;
+    private DbHelper dbHelper;
 
 
     public static InboxFragment newInstance()
@@ -64,7 +66,7 @@ public class InboxFragment extends Fragment{
 
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        generatedummy();
+                       generatedummy();
                         handler.postDelayed(this, FIVE_SECONDS);
                     }
                 }, FIVE_SECONDS);
@@ -77,19 +79,22 @@ public class InboxFragment extends Fragment{
     }
 
     private void generatedummy() {
-       Message msg1 = new Message(1,"public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\n" +
-               "        View root = inflater.inflate(R.layout.frag_inbox,container,false);","1 june 2017","user");
-//        Message msg2 = new Message(2,"fine and you","1 june 2017","admin");
-//        Message msg3 = new Message(3,"welcome dear","1 june 2017","user");
-//        Message msg4 = new Message(4,"what are you doing","1 june 2017","user");
-        Message msg5 = new Message(5,"1 june 2017 Nothing just typing 1 june 2017 Nothing just typing 1 june 2017 Nothing just typing1 june 2017 Nothing just typing 1 june 2017 Nothing just typing","1 june 2017","admin");
-
-        messageList.add(msg1);
-//        messageList.add(msg2);
-//        messageList.add(msg3);
-//        messageList.add(msg4);
-        messageList.add(msg5);
+//       Message msg1 = new Message(1,"public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\n" +
+//               "        View root = inflater.inflate(R.layout.frag_inbox,container,false);","1 june 2017","user");
+////        Message msg2 = new Message(2,"fine and you","1 june 2017","admin");
+////        Message msg3 = new Message(3,"welcome dear","1 june 2017","user");
+////        Message msg4 = new Message(4,"what are you doing","1 june 2017","user");
+//        Message msg5 = new Message(5,"1 june 2017 Nothing just typing 1 june 2017 Nothing just typing 1 june 2017 Nothing just typing1 june 2017 Nothing just typing 1 june 2017 Nothing just typing","1 june 2017","admin");
+//
+//        messageList.add(msg1);
+////        messageList.add(msg2);
+////        messageList.add(msg3);
+////        messageList.add(msg4);
+//        messageList.add(msg5);
+//
+//
+        dbHelper = new DbHelper(getActivity());
+        messageList = dbHelper.getAllQuestions(1);
         mAdapter.notifyDataSetChanged();
-
     }
 }

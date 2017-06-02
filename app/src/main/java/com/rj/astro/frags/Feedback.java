@@ -107,6 +107,15 @@ public class Feedback extends Fragment {
 
 
     }
+
+    public void clearText(){
+        inputName.setText("");
+        inputEmail.setText("");
+        inputMobile.setText("");
+        inputFeedback.setText("");
+
+    }
+
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -225,7 +234,7 @@ public class Feedback extends Fragment {
 
                     }else{
                         Toast.makeText(getActivity(),resMessage,Toast.LENGTH_SHORT).show();
-
+                           clearText();
 
 
                     }

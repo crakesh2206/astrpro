@@ -9,17 +9,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rj.astro.R;
+import com.rj.astro.databases.Questions;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
-    private List<Message> messageList;
+    private List<Questions> messageList;
 
     public static final int SENDER = 0;
     public static final int RECIPIENT = 1;
 
-    public MessageAdapter(Context context, List<Message> messages) {
+    public MessageAdapter(Context context, List<Questions> messages) {
         messageList = messages;
     }
 
@@ -55,7 +56,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.mTextView.setText(messageList.get(position).getMessage());
+        holder.mTextView.setText(messageList.get(position).KEY_QUESTION);
         holder.mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,9 +72,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        Message message = messageList.get(position);
+        Questions message = messageList.get(position);
 
-        if (message.getUserOrAdmin().equals("user")) {
+        if (message.KEY_USERTYPE.equals("user")) {
             return SENDER;
         } else {
             return RECIPIENT;

@@ -61,18 +61,21 @@
                         android:id="@+id/input_mobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:hint="Email Id" />
+                        android:inputType="number"
+                        android:hint="Mobile Number" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_feedback"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
                     <EditText
                         android:background="@drawable/border"
                         android:layout_width="fill_parent"
+                        android:layout_marginTop="2dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="left|top"
+                        android:padding="10dp"
                         android:singleLine="false"
                         android:lines="5"
                         android:id="@+id/input_feedback"
