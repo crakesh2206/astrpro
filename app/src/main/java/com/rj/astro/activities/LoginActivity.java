@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.rj.astro.R;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.volly.AppController;
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox mCbShowPwd;
     EditText etUsername,etPassword;
     Button btnLogin;
+    TextView tvToReg;
     private ProgressDialog pDialog;
     private PrefManager pRef;
 
@@ -55,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
         pRef = new PrefManager(this);
         btnLogin = (Button)findViewById(R.id.buttonLogin);
+        tvToReg = (TextView)findViewById(R.id.link_to_register);
         etUsername = (EditText)findViewById(R.id.editTextuser);
         etPassword = (EditText)findViewById(R.id.editTextPassword);
         // get the show/hide password Checkbox
@@ -76,15 +80,25 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String token = FirebaseInstanceId.getInstance().getToken();
+
+                pRef.setToken(token);
                String userName= etUsername.getText().toString().trim();
                String password = etPassword.getText().toString().trim();
-
-                if(!userName.isEmpty() && !password.isEmpty()){
+               String tok = pRef.getToken();
+                if(!userName.isEmpty() && !password.isEmpty() && tok != null){
                      sendDataToServer(userName,password);
                 }else{
                     Toast.makeText(LoginActivity.this,"Please fill Details",Toast.LENGTH_SHORT).show();
                 }
-
+        tvToReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 
@@ -145,12 +159,18 @@ public class LoginActivity extends AppCompatActivity {
 
                            pRef.setLogIn(true);
 
+                          if(pRef.isUserisAdmin()){
+                              Intent intent = new Intent(LoginActivity.this,AdminPanelActivity.class);
+                              startActivity(intent);
+                              finish();
+                          }else{
+
 
 
                            Intent intent = new Intent(LoginActivity.this,NormalUserActivity.class);
                            startActivity(intent);
                            finish();
-
+                          }
 
 
                    }
@@ -179,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email",username);
                 params.put("password", password);
+                params.put("token", pRef.getToken());
 
 
                 return params;

@@ -48,7 +48,7 @@ public class InboxFragment extends Fragment{
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         generatedummy();
-        mAdapter = new MessageAdapter(getActivity(), messageList);
+            mAdapter = new MessageAdapter(getActivity(), messageList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -60,21 +60,21 @@ public class InboxFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-         handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                       generatedummy();
-                        handler.postDelayed(this, FIVE_SECONDS);
-                    }
-                }, FIVE_SECONDS);
-
-
-            }
-        }).start();
+//         handler = new Handler();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                handler.postDelayed(new Runnable() {
+//                    public void run() {
+//                       generatedummy();
+//                        handler.postDelayed(this, FIVE_SECONDS);
+//                    }
+//                }, FIVE_SECONDS);
+//
+//
+//            }
+//        }).start();
 
 
     }

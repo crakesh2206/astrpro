@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -78,23 +77,23 @@ public class RegistrationActivity extends AppCompatActivity implements TimePicke
         inputPlace = (EditText) findViewById(R.id.input_place);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
 
+        inputDate.setFocusable(false);
+        inputDate.setClickable(true);
+        inputTime.setFocusable(false);
+        inputTime.setClickable(true);
 
+        inputDate.setOnClickListener(new View.OnClickListener() {
 
-        inputDate.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
+            public void onClick(View v) {
                 showDatePicker();
-                return true;
             }
         });
 
-        inputTime.setOnTouchListener(new View.OnTouchListener() {
+        inputTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 showTimePicker();
-
-                return true;
             }
         });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
