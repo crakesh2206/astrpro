@@ -1,4 +1,4 @@
-package com.rj.astro.frags;
+package com.rj.astro.admin_frags;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,19 +10,24 @@ import android.view.ViewGroup;
 import com.rj.astro.R;
 
 /**
- * Created by Rakesh on 18/05/2017.
+ * Created by Codefingers-1 on 06-06-2017.
  */
 
-public class Information extends Fragment {
+public class AdmInbox extends Fragment {
+
+    public static AdmInbox newInstance()
+    {
+        AdmInbox f = new AdmInbox();
+        return (f);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-                  View root = inflater.inflate(R.layout.frg,container,false);
+        View root = inflater.inflate(R.layout.ad_request_noti_frag,container,false);
 
         return root;
     }
-
-
-
 }

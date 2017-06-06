@@ -20,6 +20,12 @@
 
                         />
 
+        <receiver android:name=".util.NetworkStateReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".activities.LoginActivity"/>
 
         <activity android:name=".activities.Add"/>

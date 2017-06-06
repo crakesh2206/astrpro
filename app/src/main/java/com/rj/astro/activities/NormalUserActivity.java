@@ -28,19 +28,20 @@ import com.rj.astro.frags.InboxFragment;
 import com.rj.astro.frags.Myrequest;
 
 public class NormalUserActivity extends AppCompatActivity {
-  Drawer result;
+    Drawer result;
     private Toolbar toolbar;
     private FragmentManager fragmentManager;
-    PrimaryDrawerItem itemMyrequest,itemInbox,itemFeedback,itemCOntactUs,itemRateUs;
+    PrimaryDrawerItem itemMyrequest, itemInbox, itemFeedback, itemCOntactUs, itemRateUs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_user);
-           toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-          fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem itemMyrequest =  new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle);
+        itemMyrequest = new PrimaryDrawerItem().withName("My Requests").withIcon(FontAwesome.Icon.faw_user_circle);
         itemInbox = new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope);
         itemFeedback = new PrimaryDrawerItem().withName("FeedBack & Support").withIcon(FontAwesome.Icon.faw_globe);
         itemCOntactUs = new PrimaryDrawerItem().withName("Contant Us").withIcon(FontAwesome.Icon.faw_contao);
@@ -52,12 +53,12 @@ public class NormalUserActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar).withHeader(R.layout.nav_header_main)
                 .addDrawerItems(
-                       itemMyrequest,
-                        itemInbox             ,
-                       itemFeedback ,
+                        itemMyrequest,
+                        itemInbox,
+                        itemFeedback,
                         new DividerDrawerItem(),
-                       itemCOntactUs ,
-                        itemRateUs)
+                        itemCOntactUs,
+                        itemRateUs).withDisplayBelowStatusBar(true)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -65,43 +66,42 @@ public class NormalUserActivity extends AppCompatActivity {
                         if (drawerItem != null && drawerItem instanceof Nameable) {
 
                             if (position == 1) {
-                                 toolbar.setTitle("My Requests");
+                                toolbar.setTitle("My Requests");
                                 Fragment f = Myrequest.newInstance();
-                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
                             }
 
                             if (position == 2) {//inbox
                                 toolbar.setTitle("Inbox");
                                 Fragment f = InboxFragment.newInstance();
-                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
                             }
                             if (position == 3) {
                                 toolbar.setTitle("Feedbacks");
                                 Fragment f = Feedback.newInstance();
-                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
                             }
                             if (position == 5) {
                                 toolbar.setTitle("Contact Us");
                                 Fragment f = ContactUs.newInstance();
-                                fragmentManager.beginTransaction().replace(R.id.fragment_container,f).commit();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
                             }
                             if (position == 6) {
 
                                 // TODO Auto-generated method stub
                                 Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                                i.setData(Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName()));
+                                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
                                 startActivity(i);
 
                             }
 
 
-
                         }
 
-                    return false;
+                        return false;
                     }
                 }).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -122,7 +122,7 @@ public class NormalUserActivity extends AppCompatActivity {
 
                 }).withFireOnInitialOnClick(true).withSavedInstance(savedInstanceState)
                 .withSelectedItem(0).build();
-          result.updateItem(itemMyrequest.withBadge("14").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)));
+        result.updateItem(itemMyrequest.withBadge("14").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)));
 
     }
 }
