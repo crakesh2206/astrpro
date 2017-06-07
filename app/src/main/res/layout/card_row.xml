@@ -1,33 +1,34 @@
-<android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    app:background="@color/md_black_1000"
     card_view:cardCornerRadius="5dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:background="#00000000"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_name"
-            android:layout_marginTop="10dp"
+             android:textColor="@color/md_black_1000"
             android:layout_marginBottom="10dp"
+            android:text="Rakesh"
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold" />
         <TextView
+            android:text="Rakesh"
             android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_api_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

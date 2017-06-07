@@ -10,14 +10,13 @@ import android.view.ViewGroup;
 import com.rj.astro.R;
 
 /**
- * Created by Codefingers-1 on 06-06-2017.
+ * Created by Codefingers-1 on 07-06-2017.
  */
 
-public class AdmInbox extends Fragment {
-
-    public static AdmInbox newInstance()
+public class RequestsAndNoti extends Fragment {
+    public static RequestsAndNoti newInstance()
     {
-        AdmInbox f = new AdmInbox();
+        RequestsAndNoti f = new RequestsAndNoti();
         return (f);
     }
 
@@ -26,7 +25,7 @@ public class AdmInbox extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.frag_inbox,container,false);
+        View root = inflater.inflate(R.layout.frag_request_noti,container,false);
 
         return root;
     }

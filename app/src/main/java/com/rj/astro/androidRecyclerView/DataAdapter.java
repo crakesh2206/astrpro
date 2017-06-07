@@ -30,9 +30,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        viewHolder.tv_name.setText(mFilteredList.get(i).getName());
-        viewHolder.tv_version.setText(mFilteredList.get(i).getVer());
-        viewHolder.tv_api_level.setText(mFilteredList.get(i).getApi());
+        viewHolder.tv_name.setText("@"+mFilteredList.get(i).getName());
+        viewHolder.tv_version.setText(mFilteredList.get(i).getFeedback());
+
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
 
                     for (AndroidVersion androidVersion : mArrayList) {
 
-                        if (androidVersion.getApi().toLowerCase().contains(charString) || androidVersion.getName().toLowerCase().contains(charString) || androidVersion.getVer().toLowerCase().contains(charString)) {
+                        if (androidVersion.getName().toLowerCase().contains(charString) || androidVersion.getName().toLowerCase().contains(charString) || androidVersion.getFeedback().toLowerCase().contains(charString)) {
 
                             filteredList.add(androidVersion);
                         }
@@ -81,13 +81,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_name,tv_version,tv_api_level;
+        private TextView tv_name,tv_version;
         public ViewHolder(View view) {
             super(view);
 
             tv_name = (TextView)view.findViewById(R.id.tv_name);
             tv_version = (TextView)view.findViewById(R.id.tv_version);
-            tv_api_level = (TextView)view.findViewById(R.id.tv_api_level);
+
 
         }
     }
