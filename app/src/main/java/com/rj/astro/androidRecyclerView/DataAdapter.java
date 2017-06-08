@@ -21,6 +21,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
         mFilteredList = arrayList;
     }
 
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_row, viewGroup, false);

@@ -22,6 +22,7 @@ import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
 import com.rj.astro.admin_frags.AdmInbox;
 import com.rj.astro.admin_frags.AllFeedBacks;
+import com.rj.astro.admin_frags.AllUsers;
 import com.rj.astro.admin_frags.RequestsAndNoti;
 
 public class AdminPanelActivity extends AppCompatActivity {
@@ -86,6 +87,12 @@ public class AdminPanelActivity extends AppCompatActivity {
                             if (position == 3) {
                                 toolbar.setTitle("Inbox");
                                 Fragment f = AdmInbox.newInstance();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
+
+                            }
+                            if (position == 5) {
+                                toolbar.setTitle("UserList");
+                                Fragment f = AllUsers.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
                             }

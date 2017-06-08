@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/tools"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+
+    card_view:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/md_blue_50"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:id="@+id/imagelayout"
+                android:orientation="vertical"
+                android:layout_weight="0.4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_height="60dp"
+                    card_view:srcCompat="@drawable/ml"
+                    android:id="@+id/imageView8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="5dp"
+                android:id="@+id/datalayout"
+                android:layout_weight="1.6"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Name : Rakesh J Chauhan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_u_name"
+                    android:textSize="18sp"
+                    android:textColor="@color/md_black_1000"/>
+                <TextView
+                    android:text="Email : crakesh2206@gmail.com"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_u_email"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_black_1000"/>
+                <TextView
+                    android:text="Mobile : 9033309470"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_u_mobile"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_black_1000"/>
+                <TextView
+                    android:text="DateOfBirth : 22/06/1991"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_u_dob"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_black_1000"/>
+                <TextView
+                    android:text="BirthTime : 02.00PM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_u_dot"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_black_1000"/>
+                <TextView
+                    android:text="BirthPlace : Nadiad,Gujarat,India"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_u_place"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_black_1000"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+
+    <!--user_id username email  mobile password usertype devicetoken  gender dob dot birthplace  c-->
