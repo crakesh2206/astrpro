@@ -10,11 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.rj.astro.R;
 import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.Questions;
+import com.rj.astro.volly.AppController;
+import com.rj.astro.volly.ConstantLinks;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +49,13 @@ public class InboxFragment extends Fragment{
         InboxFragment f = new InboxFragment();
         return (f);
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dbHelper = new DbHelper(getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,8 +65,10 @@ public class InboxFragment extends Fragment{
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        generatedummy();
-            mAdapter = new MessageAdapter(getActivity(), messageList);
+        mAdapter = new MessageAdapter(getActivity(), messageList);
+        sendDataToServer();
+      //  generatedummy();
+
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -94,8 +114,71 @@ public class InboxFragment extends Fragment{
 //        messageList.add(msg5);
 //
 //
-        dbHelper = new DbHelper(getActivity());
-        messageList = dbHelper.getAllQuestions(1);
+        messageList = dbHelper.getAllQuestions(32);
+        mAdapter.notifyDataSetChanged();
+
+    }
+
+    public void sendDataToServer(){
+
+
+        // Tag used to cancel the request
+        String  obj_req = "obj_req";
+
+        JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
+                ConstantLinks.USER_ALL_QUESTIONS,null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String error =  response.getString("error");
+
+                    if(error.equals("false")){
+
+                        JSONArray resType =  response.getJSONArray("questions");
+                        for (int i =0;i<resType.length();i++){
+                            JSONObject obj = resType.getJSONObject(i);
+                          Questions ques = new Questions();
+                            ques.KEY_QID = obj.getString("qid");
+                            ques.KEY_CATAGORY = obj.getString("cat");
+                            ques.KEY_SUB_CATAGORY = obj.getString("sub_cat");
+                            ques.KEY_QUESTION = obj.getString("ques");
+                             ques.KEY_TIME = obj.getString("tm");
+                            ques.KEY_USER_ID = obj.getString("user_id");
+                              ques.KEY_USERTYPE = obj.getString("usertype");
+                            ques.KEY_TOWHO = obj.getString("towho");
+                           dbHelper.createQUESTION(ques);
+
+
+                        }
+
+                        messageList = dbHelper.getAllQuestions(32);
+                        mAdapter.notifyDataSetChanged();
+
+                    }else{
+                        Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                mAdapter.notifyDataSetChanged();
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(objJsonreq, obj_req);
 
     }
 }

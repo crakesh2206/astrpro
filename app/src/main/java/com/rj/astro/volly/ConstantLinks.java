@@ -11,5 +11,6 @@ public class ConstantLinks {
     public static final String FEEDBACK_USER = "http://narutofans.000webhostapp.com/astronots/feedback_user.php";
     public static final String SINGLE_SEND_USER = "http://narutofans.000webhostapp.com/astronots/sendSinglePush.php";
     public static final String FEEDBACK_ALL = "http://narutofans.000webhostapp.com/astronots/getFeedbacks.php";
-    public static final String FEEDBACK_ALL_USERS = "http://narutofans.000webhostapp.com/astronots/getUsers.php";
+    public static final String ALL_USERS = "http://narutofans.000webhostapp.com/astronots/getUsers.php";
+    public static final String USER_ALL_QUESTIONS = "http://narutofans.000webhostapp.com/astronots/getAllQuestions.php";
 }

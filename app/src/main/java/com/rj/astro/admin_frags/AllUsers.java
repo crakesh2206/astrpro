@@ -87,14 +87,14 @@ public class AllUsers extends Fragment {
         String  obj_req = "obj_req";
 
         JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
-                ConstantLinks.FEEDBACK_ALL_USERS,null, new Response.Listener<JSONObject>() {
+                ConstantLinks.ALL_USERS,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     String error =  response.getString("error");
 
                     if(error.equals("false")){
-
+                        mArrayList.clear();
                         JSONArray resType =  response.getJSONArray("users");
                         for (int i =0;i<resType.length();i++){
                               JSONObject obj = resType.getJSONObject(i);
