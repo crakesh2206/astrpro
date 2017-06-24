@@ -147,11 +147,11 @@ public class InboxFragment extends Fragment{
                               ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
                            dbHelper.createQUESTION(ques);
-
+                          messageList.add(ques);
 
                         }
 
-                        messageList = dbHelper.getAllQuestions(32);
+
                         mAdapter.notifyDataSetChanged();
 
                     }else{
