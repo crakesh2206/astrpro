@@ -37,6 +37,8 @@ public class PrefManager {
     private static final String IS_LOG_IN = "Islogin";
     private String dot;
 
+    private boolean tokenSent =false;
+
 
     public PrefManager(Context context) {
         this._context = context;
@@ -121,5 +123,16 @@ public class PrefManager {
     public void setBirthPlace(String birthPlace) {
         editor.putString(USE_BIRTHPLACE,birthPlace);
         editor.commit();
+    }
+
+    public void setTokenSent(boolean tokenSent) {
+        this.tokenSent = tokenSent;
+    }
+    public boolean isTokenSent() {
+        return tokenSent;
+    }
+
+    public  void clear() {
+        editor.clear().commit();
     }
 }

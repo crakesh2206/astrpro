@@ -44,6 +44,7 @@ public class Step extends AppCompatActivity {
                     if(prefs.isUserisAdmin()){
                         //go to admin
                         Intent i = new Intent(Step.this,AdminPanelActivity.class);
+                        i.putExtra("from","step");
                         startActivity(i);
                         finish();
 
@@ -95,6 +96,7 @@ public class Step extends AppCompatActivity {
                         dbHelper.createQUESTION(qs3);
 
                         Intent i = new Intent(Step.this,NormalUserActivity.class);
+                        i.putExtra("from","step");
                         startActivity(i);
                         finish();
 

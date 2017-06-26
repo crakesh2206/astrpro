@@ -1,0 +1,128 @@
+DbOperation
+{
+    //Database connection link
+    private $con;
+
+    //Class constructor
+    function __construct()
+    {
+        //Getting the DbConnect.php file
+        require_once dirname(__FILE__) . '/DbConnect.php';
+
+        //Creating a DbConnect object to connect to the database
+        $db = new DbConnect();
+
+        //Initializing our connection link of this class
+        //by calling the method connect of DbConnect class
+        $this->con = $db->connect();
+    }
+
+    //storing token in database
+    public function registerDevice($email,$token){
+        if(!$this->isEmailExist($email)){
+            $stmt = $this->con->prepare("INSERT INTO devices (email, token) VALUES (?,?) ");
+            $stmt->bind_param("ss",$email,$token);
+            if($stmt->execute())
+                return 0; //return 0 means success
+            return 1; //return 1 means failure
+        }else{
+            return 2; //returning 2 means email already exist
+        }
+    }
+
+ //Update token in database
+     public function Updatetoken($email,$token){
+
+             $stmt = $this->con->prepare("UPDATE users SET devicetoken = $token WHERE email = ?");
+             $stmt->bind_param("s",$email);
+             if($stmt->execute())
+                 return 0; //return 0 means success
+             return 1; //return 1 means failure
+
+     }
+
+
+
+  //storing question in database
+    public function registerQuestion($cat,$sub_cat,$ques,$user_id,$tm,$usertype){
+
+            $stmt = $this->con->prepare("INSERT INTO questions (catagory_ques, subcat_ques, ques, user_id, tm,usertype) VALUES (?,?,?,?,?,?) ");
+            $stmt->bind_param("ssssss",$cat,$sub_cat,$ques,$user_id,$tm,$usertype);
+            if($stmt->execute())
+                return 0; //return 0 means success
+            return 1; //return 1 means failure
+
+    }
+
+
+    //the method will check if email already exist
+    private function isEmailexist($email){
+        $stmt = $this->con->prepare("SELECT id FROM devices WHERE email = ?");
+        $stmt->bind_param("s",$email);
+        $stmt->execute();
+        $stmt->store_result();
+        $num_rows = $stmt->num_rows;
+        $stmt->close();
+        return $num_rows > 0;
+    }
+
+    //getting all tokens to send push to all devices
+    public function getAllTokens(){
+        $stmt = $this->con->prepare("SELECT devicetoken FROM users");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tokens = array();
+        while($token = $result->fetch_assoc()){
+            array_push($tokens, $token['devicetoken']);
+        }
+        return $tokens;
+    }
+
+    //getting a specified token to send push to selected device
+    public function getTokenByEmail($email){
+        $stmt = $this->con->prepare("SELECT devicetoken FROM users WHERE email = ?");
+        $stmt->bind_param("s",$email);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return array($result['devicetoken']);
+    }
+	//getting a specified token to send push to selected device
+    public function getTokenByUsertype($usertype){
+        $stmt = $this->con->prepare("SELECT devicetoken FROM users WHERE usertype = ?");
+        $stmt->bind_param("s",$usertype);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return array($result['devicetoken']);
+    }
+	//getting a specified token to send push to selected device
+    public function getTokenByID($ids){
+        $stmt = $this->con->prepare("SELECT devicetoken FROM users WHERE usertype = ?");
+        $stmt->bind_param("s",$ids);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return array($result['devicetoken']);
+    }
+
+// user_id username email  mobile password usertype devicetoken  gender dob dot birthplace  c
+    //getting all  Users from database
+    public function getAllUsers(){
+        $stmt = $this->con->prepare("SELECT * FROM users");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+
+        return $result;
+    }
+//feed_id name email mobile feedback  usertype  user_id
+//getting all  feedbacks from database
+  public function getAllFeedbacks(){
+        $stmt = $this->con->prepare("SELECT * FROM feedbacks");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result;
+    }
+
+}
+hghhhgh

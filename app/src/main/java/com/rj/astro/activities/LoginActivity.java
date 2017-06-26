@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                String userName= etUsername.getText().toString().trim();
                String password = etPassword.getText().toString().trim();
                String tok = pRef.getToken();
-                if(!userName.isEmpty() && !password.isEmpty() && tok != null){
+                if(!userName.isEmpty() && !password.isEmpty()){
                      sendDataToServer(userName,password);
                 }else{
                     Toast.makeText(LoginActivity.this,"Please fill Details",Toast.LENGTH_SHORT).show();
@@ -161,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
 
                           if(pRef.isUserisAdmin()){
                               Intent intent = new Intent(LoginActivity.this,AdminPanelActivity.class);
+                              intent.putExtra("from","login");
                               startActivity(intent);
                               finish();
                           }else{
@@ -168,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                            Intent intent = new Intent(LoginActivity.this,NormalUserActivity.class);
+                              intent.putExtra("from","login");
                            startActivity(intent);
                            finish();
                           }

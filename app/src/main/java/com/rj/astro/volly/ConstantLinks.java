@@ -13,4 +13,6 @@ public class ConstantLinks {
     public static final String FEEDBACK_ALL = "http://narutofans.000webhostapp.com/astronots/getFeedbacks.php";
     public static final String ALL_USERS = "http://narutofans.000webhostapp.com/astronots/getUsers.php";
     public static final String USER_ALL_QUESTIONS = "http://narutofans.000webhostapp.com/astronots/getAllQuestions.php";
+    public static final String EMAIL = "";
+    public static final String PASSWORD = "";
 }

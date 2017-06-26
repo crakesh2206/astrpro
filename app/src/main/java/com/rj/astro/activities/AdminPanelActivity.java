@@ -1,6 +1,7 @@
 package com.rj.astro.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,10 +21,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
-import com.rj.astro.admin_frags.AdmInbox;
 import com.rj.astro.admin_frags.AllFeedBacks;
 import com.rj.astro.admin_frags.AllUsers;
 import com.rj.astro.admin_frags.RequestsAndNoti;
+import com.rj.astro.databases.PrefManager;
 
 public class AdminPanelActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class AdminPanelActivity extends AppCompatActivity {
     private PrimaryDrawerItem itemUserlist;
     private PrimaryDrawerItem itemSignOut;
     private FragmentManager fragmentManager;
+    private PrefManager pRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,73 @@ public class AdminPanelActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String from = getIntent().getStringExtra("from");
+        pRef = new PrefManager(this);
+//        if(from.equals("login")){
+//            String token = FirebaseInstanceId.getInstance().getToken();
+//
+//
+//            pRef.setToken(token);
+//            final String toks = pRef.getToken();
+//            if(toks != null) {
+//
+//                StringRequest stringRequest = new StringRequest(Request.Method.POST, ConstantLinks.SET_TOKEN,
+//                        new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                try {
+//                                    JSONObject jsonObject = new JSONObject(response);
+//                                    boolean error = jsonObject.getBoolean("error");
+//                                    if(error== false){
+//                                        pRef.setTokenSent(true);
+//
+//                                    }
+//
+//
+//
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//
+//                            }
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//
+//                            }
+//                        }) {
+//
+//                    @Override
+//                    protected Map<String, String> getParams() {
+//                        Map<String, String> params = new HashMap<String, String>();
+//                        params.put("email", pRef.getUserEmail());
+//                        params.put("token", toks);
+//
+//
+//                        return params;
+//                    }
+//                };
+//
+//                // Adding request to request queue
+//                AppController.getInstance().addToRequestQueue(stringRequest,"req");
+//
+//            }
+//
+//        }
+
+
+
+
+
+
+
         fragmentManager = getSupportFragmentManager();
 //if you want to update the items at a later time it is recommended to keep it in a variable
 
         itemRequestNotificaton = new PrimaryDrawerItem().withName("Requests & Notification").withIcon(FontAwesome.Icon.faw_user_circle);
-        itemInboxs = new PrimaryDrawerItem().withName("Inbox").withIcon(FontAwesome.Icon.faw_envelope);
+
         itemFeedbackS = new PrimaryDrawerItem().withName("FeedBacks").withIcon(FontAwesome.Icon.faw_globe);
         itemUserlist = new PrimaryDrawerItem().withName("Users List").withIcon(FontAwesome.Icon.faw_users);
         itemSignOut = new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_power_off);
@@ -61,9 +125,8 @@ public class AdminPanelActivity extends AppCompatActivity {
                 .addDrawerItems(
                         itemRequestNotificaton,
                         itemFeedbackS,
-                        itemInboxs,
-                        new DividerDrawerItem(),
                         itemUserlist,
+                        new DividerDrawerItem(),
                         itemSignOut
                 ).withDisplayBelowStatusBar(true)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -73,7 +136,7 @@ public class AdminPanelActivity extends AppCompatActivity {
                         if (drawerItem != null && drawerItem instanceof Nameable) {
 
                             if (position == 1) {
-                                toolbar.setTitle("My Requests");
+                                toolbar.setTitle("Requests & Notifications");
                                 Fragment f = RequestsAndNoti.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
@@ -84,17 +147,22 @@ public class AdminPanelActivity extends AppCompatActivity {
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
                             }
-                            if (position == 3) {
-                                toolbar.setTitle("Inbox");
-                                Fragment f = AdmInbox.newInstance();
-                                fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
-                            }
-                            if (position == 5) {
+                            if (position == 3) {
                                 toolbar.setTitle("UserList");
                                 Fragment f = AllUsers.newInstance();
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
 
+                            }
+                            //signout
+                            if (position == 5) {
+
+                                // TODO Auto-generated method stub
+                                pRef.clear();
+                                Intent i = new Intent(AdminPanelActivity.this, LoginActivity.class);
+
+                                startActivity(i);
+                                finish();
                             }
                         }
 
