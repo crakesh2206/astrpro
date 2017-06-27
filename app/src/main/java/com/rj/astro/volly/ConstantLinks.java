@@ -15,4 +15,5 @@ public class ConstantLinks {
     public static final String USER_ALL_QUESTIONS = "http://narutofans.000webhostapp.com/astronots/getAllQuestions.php";
     public static final String EMAIL = "";
     public static final String PASSWORD = "";
+    public static final String SET_TOKEN = "http://narutofans.000webhostapp.com/astronots/updateToken.php";
 }

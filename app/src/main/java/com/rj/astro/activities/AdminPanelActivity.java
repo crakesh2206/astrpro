@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -25,6 +29,14 @@ import com.rj.astro.admin_frags.AllFeedBacks;
 import com.rj.astro.admin_frags.AllUsers;
 import com.rj.astro.admin_frags.RequestsAndNoti;
 import com.rj.astro.databases.PrefManager;
+import com.rj.astro.volly.AppController;
+import com.rj.astro.volly.ConstantLinks;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminPanelActivity extends AppCompatActivity {
 
@@ -47,59 +59,21 @@ public class AdminPanelActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         String from = getIntent().getStringExtra("from");
         pRef = new PrefManager(this);
-//        if(from.equals("login")){
-//            String token = FirebaseInstanceId.getInstance().getToken();
-//
-//
-//            pRef.setToken(token);
-//            final String toks = pRef.getToken();
-//            if(toks != null) {
-//
-//                StringRequest stringRequest = new StringRequest(Request.Method.POST, ConstantLinks.SET_TOKEN,
-//                        new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                try {
-//                                    JSONObject jsonObject = new JSONObject(response);
-//                                    boolean error = jsonObject.getBoolean("error");
-//                                    if(error== false){
-//                                        pRef.setTokenSent(true);
-//
-//                                    }
-//
-//
-//
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//
-//                            }
-//                        },
-//                        new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//
-//                            }
-//                        }) {
-//
-//                    @Override
-//                    protected Map<String, String> getParams() {
-//                        Map<String, String> params = new HashMap<String, String>();
-//                        params.put("email", pRef.getUserEmail());
-//                        params.put("token", toks);
-//
-//
-//                        return params;
-//                    }
-//                };
-//
-//                // Adding request to request queue
-//                AppController.getInstance().addToRequestQueue(stringRequest,"req");
-//
-//            }
-//
-//        }
+        if(from.equals("login")){
+
+            final String toks = pRef.getToken();
+            if(toks != null) {
+                   updateToken(toks);
+            }
+
+        }else{
+            if(!pRef.isTokenSent()){
+                final String tk = pRef.getToken();
+                if(tk != null) {
+                    updateToken(tk);
+                }
+            }
+        }
 
 
 
@@ -196,6 +170,51 @@ public class AdminPanelActivity extends AppCompatActivity {
                 Toast.makeText(AdminPanelActivity.this, "fdfd", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+    public void updateToken(final String tok){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ConstantLinks.SET_TOKEN,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    boolean error = jsonObject.getBoolean("error");
+                                    if(error== false){
+                                        pRef.setTokenSent(true);
+
+                                    }
+
+
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }) {
+
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("email", pRef.getUserEmail());
+                        params.put("token", tok);
+
+
+                        return params;
+                    }
+                };
+
+                // Adding request to request queue
+                AppController.getInstance().addToRequestQueue(stringRequest,"req");
 
     }
 }
