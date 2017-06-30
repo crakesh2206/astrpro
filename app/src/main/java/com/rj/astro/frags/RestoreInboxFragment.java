@@ -1,8 +1,7 @@
 package com.rj.astro.frags;
 
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,7 +28,6 @@ import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;
-import com.rj.astro.util.NetworkStateChecker;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
 
@@ -46,18 +44,13 @@ import java.util.Map;
  * Created by Codefingers-1 on 01-06-2017.
  */
 
-public class InboxFragment extends Fragment{
-
-
-    //1 means data is synced and 0 means data is not synced
-    public static final int NAME_SYNCED_WITH_SERVER = 1;
-    public static final int NAME_NOT_SYNCED_WITH_SERVER = 0;
-
+public class RestoreInboxFragment extends Fragment{
+    private static final long FIVE_SECONDS = 5000;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MessageAdapter mAdapter;
     private List<Questions> messageList;
-
+    private Handler handler;
     private DbHelper dbHelper;
     ImageView mSend;
     private PrefManager pRef;
@@ -65,9 +58,9 @@ public class InboxFragment extends Fragment{
     private ProgressBar mProgress;
     private RelativeLayout mNodata;
 
-    public static InboxFragment newInstance()
+    public static RestoreInboxFragment newInstance()
     {
-        InboxFragment f = new InboxFragment();
+        RestoreInboxFragment f = new RestoreInboxFragment();
         return (f);
     }
 
@@ -76,7 +69,6 @@ public class InboxFragment extends Fragment{
         super.onCreate(savedInstanceState);
         dbHelper = new DbHelper(getActivity());
         pRef = new PrefManager(getActivity());
-        getActivity().registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Nullable
@@ -93,6 +85,8 @@ public class InboxFragment extends Fragment{
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MessageAdapter(getActivity(), messageList);
+       // getDataToServer();
+        generatedummy();
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -106,11 +100,56 @@ public class InboxFragment extends Fragment{
                 }
             }
         });
+//        if(mAdapter.getItemCount()>0){
+//            mNodata.setVisibility(View.GONE);
+//        }
 
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+//         handler = new Handler();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                handler.postDelayed(new Runnable() {
+//                    public void run() {
+//                       generatedummy();
+//                        handler.postDelayed(this, FIVE_SECONDS);
+//                    }
+//                }, FIVE_SECONDS);
+//
+//
+//            }
+//        }).start();
 
+
+    }
+
+    private void generatedummy() {
+//       Message msg1 = new Message(1,"public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\n" +
+//               "        View root = inflater.inflate(R.layout.frag_inbox,container,false);","1 june 2017","user");
+////        Message msg2 = new Message(2,"fine and you","1 june 2017","admin");
+////        Message msg3 = new Message(3,"welcome dear","1 june 2017","user");
+////        Message msg4 = new Message(4,"what are you doing","1 june 2017","user");
+//        Message msg5 = new Message(5,"1 june 2017 Nothing just typing 1 june 2017 Nothing just typing 1 june 2017 Nothing just typing1 june 2017 Nothing just typing 1 june 2017 Nothing just typing","1 june 2017","admin");
+//
+//        messageList.add(msg1);
+////        messageList.add(msg2);
+////        messageList.add(msg3);
+////        messageList.add(msg4);
+//        messageList.add(msg5);
+//
+
+        messageList.addAll(dbHelper.getAllQuestions(32));
+        mAdapter.notifyDataSetChanged();
+        if(mAdapter.getItemCount()==0){
+
+        }
+    }
 
     public void getDataToServer(){
 

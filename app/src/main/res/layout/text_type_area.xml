@@ -6,15 +6,27 @@
     android:gravity="bottom"
     android:orientation="horizontal">
 
+    <ProgressBar
+        android:layout_width="30dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:id="@+id/progedit"
+   />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:id="@+id/editsend"
         android:textColorHint="#CFD8DC"
         android:textColor="#CFD8DC"
         android:hint="Write a message" />
 
+
+
+
+
     <ImageView
+        android:id="@+id/imgsend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="5"

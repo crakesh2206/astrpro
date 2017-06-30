@@ -183,7 +183,7 @@ public class AdminPanelActivity extends AppCompatActivity {
                                     boolean error = jsonObject.getBoolean("error");
                                     if(error== false){
                                         pRef.setTokenSent(true);
-
+                     Toast.makeText(AdminPanelActivity.this, "Token Registerd", Toast.LENGTH_SHORT).show();
                                     }
 
 
