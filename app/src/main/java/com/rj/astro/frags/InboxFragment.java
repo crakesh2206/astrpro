@@ -37,7 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +49,7 @@ import java.util.Map;
  * Created by Codefingers-1 on 01-06-2017.
  */
 
-public class InboxFragment extends Fragment{
+public class InboxFragment extends Fragment {
 
 
     //1 means data is synced and 0 means data is not synced
@@ -65,8 +68,7 @@ public class InboxFragment extends Fragment{
     private ProgressBar mProgress;
     private RelativeLayout mNodata;
 
-    public static InboxFragment newInstance()
-    {
+    public static InboxFragment newInstance() {
         InboxFragment f = new InboxFragment();
         return (f);
     }
@@ -82,7 +84,7 @@ public class InboxFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.frag_inbox,container,false);
+        View root = inflater.inflate(R.layout.frag_inbox, container, false);
         messageList = new ArrayList<>();
         mRecyclerView = (RecyclerView) root.findViewById(R.id.my_recycler_view);
         mSend = (ImageView) root.findViewById(R.id.imgsend);
@@ -99,9 +101,11 @@ public class InboxFragment extends Fragment{
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pRef.isUserisAdmin()){
+                if (pRef.isUserisAdmin()) {
 
-                }else{
+                } else {
+
+
                     sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), Add.setCreated(), "user", pRef.getUserName());
                 }
             }
@@ -111,44 +115,43 @@ public class InboxFragment extends Fragment{
     }
 
 
-
-    public void getDataToServer(){
+    public void getDataToServer() {
 
 
         // Tag used to cancel the request
-        String  obj_req = "obj_req";
+        String obj_req = "obj_req";
 
         JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
-                ConstantLinks.USER_ALL_QUESTIONS,null, new Response.Listener<JSONObject>() {
+                ConstantLinks.USER_ALL_QUESTIONS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String error =  response.getString("error");
+                    String error = response.getString("error");
 
-                    if(error.equals("false")){
+                    if (error.equals("false")) {
 
-                        JSONArray resType =  response.getJSONArray("questions");
-                        for (int i =0;i<resType.length();i++){
+                        JSONArray resType = response.getJSONArray("questions");
+                        for (int i = 0; i < resType.length(); i++) {
                             JSONObject obj = resType.getJSONObject(i);
-                          Questions ques = new Questions();
+                            Questions ques = new Questions();
                             ques.KEY_QID = obj.getString("qid");
                             ques.KEY_CATAGORY = obj.getString("cat");
                             ques.KEY_SUB_CATAGORY = obj.getString("sub_cat");
                             ques.KEY_QUESTION = obj.getString("ques");
-                             ques.KEY_TIME = obj.getString("tm");
+                            ques.KEY_TIME = obj.getString("tm");
                             ques.KEY_USER_ID = obj.getString("user_id");
-                              ques.KEY_USERTYPE = obj.getString("usertype");
+                            ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
-                           dbHelper.createQUESTION(ques);
-                          messageList.add(ques);
+                            dbHelper.createQUESTION(ques);
+                            messageList.add(ques);
 
                         }
 
 
                         mAdapter.notifyDataSetChanged();
 
-                    }else{
-                        Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -159,7 +162,6 @@ public class InboxFragment extends Fragment{
 
 
                 mAdapter.notifyDataSetChanged();
-
 
 
             }
@@ -178,9 +180,9 @@ public class InboxFragment extends Fragment{
 
     private void sentToServer(String catagory, String subCatagory, final String ques, final String userId, final String time, final String usertype, final String userName) {
         // Tag used to cancel the request
-        String  tag_sendmsg = "strMSG";
-
-         mProgress.setVisibility(View.VISIBLE);
+        String tag_sendmsg = "strMSG";
+        saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
+//        mProgress.setVisibility(View.VISIBLE);
 
         StringRequest strReqTeacherLogin = new StringRequest(Request.Method.POST,
                 ConstantLinks.SINGLE_SEND_USER, new Response.Listener<String>() {
@@ -188,8 +190,21 @@ public class InboxFragment extends Fragment{
             @Override
             public void onResponse(String response) {
 
-                mProgress.setVisibility(View.GONE);
-                getDataToServer();
+
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if (!obj.getBoolean("error")) {
+                        //if there is a success
+                        //storing the name to sqlite with status synced
+                        saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_SYNCED_WITH_SERVER);
+                    } else {
+                        //if there is some error
+                        //saving the name to sqlite with status unsynced
+                       // saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 mEditSent.setText("");
 
 
@@ -199,25 +214,40 @@ public class InboxFragment extends Fragment{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("eerror", "Error: " + error.getMessage());
-                mProgress.setVisibility(View.GONE);
+
+                //on error storing the name to sqlite with status unsynced
+              //  saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
+
+
             }
-        }){
+        }) {
 
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("ques",ques);
-                params.put("user_id",userId);
-                params.put("time",time);
-                params.put("usertype",usertype);
-                params.put("username",userName);
-                params.put("towho","admin");
+                params.put("ques", ques);
+                params.put("user_id", userId);
+                params.put("time", time);
+                params.put("usertype", usertype);
+                params.put("username", userName);
+                params.put("towho", "admin");
 
                 return params;
-            }};
+            }
+        };
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReqTeacherLogin, tag_sendmsg);
 
+    }
+
+    private void saveNameToLocalStorage(String ques, String userId, String time, String usertype, String userName, String toWhom, int nameSyncedWithServer) {
+
+    }
+
+    public String convertTime(long time) {
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
     }
 }
