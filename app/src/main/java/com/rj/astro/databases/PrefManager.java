@@ -96,6 +96,7 @@ public class PrefManager {
         editor.putString(USER_ID, id);
         editor.commit();
     }
+//
     public String getUserId() {
         return pref.getString(USER_ID,null);
     }
