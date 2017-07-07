@@ -1,5 +1,7 @@
 package com.rj.astro.admin_frags;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,10 +10,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,8 +25,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.rj.astro.R;
-import com.rj.astro.androidRecyclerView.AndroidVersion;
-import com.rj.astro.androidRecyclerView.DataAdapter;
+import com.rj.astro.activities.AskRequset;
+import com.rj.astro.androidRecyclerView.RequestsAdapter;
+import com.rj.astro.androidRecyclerView.RequestsAndNotiModel;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
 
@@ -40,8 +45,8 @@ public class RequestsAndNoti extends Fragment {
 
 
     private RecyclerView mRecyclerView;
-    private ArrayList<AndroidVersion> mArrayList;
-    private DataAdapter mAdapter;
+    private ArrayList<RequestsAndNotiModel> mArrayList;
+    private RequestsAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static RequestsAndNoti newInstance()
@@ -87,7 +92,7 @@ public class RequestsAndNoti extends Fragment {
         String  obj_req = "obj_req";
 
         JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
-                ConstantLinks.FEEDBACK_ALL,null, new Response.Listener<JSONObject>() {
+                ConstantLinks.REQUESTS_ALL,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -95,11 +100,14 @@ public class RequestsAndNoti extends Fragment {
 
                     if(error.equals("false")){
 
-                        JSONArray resType =  response.getJSONArray("devices");
+                        JSONArray resType =  response.getJSONArray("questions");
                         for (int i =0;i<resType.length();i++){
                             JSONObject obj = resType.getJSONObject(i);
-                            AndroidVersion andRo = new AndroidVersion(obj.getString("feed_id"),obj.getString("name"),obj.getString("email"),obj.getString("mobile"),obj.getString("feedback"),obj.getString("usertype"),obj.getString("user_id"));
-                            mArrayList.add(andRo);
+                            RequestsAndNotiModel reqModelNoti = new RequestsAndNotiModel();
+                            reqModelNoti.setUsername(obj.getString("username"));
+                            reqModelNoti.setQuestion(obj.getString("ques"));
+                            reqModelNoti.setUser_id(obj.getString("user_id"));
+                            mArrayList.add(reqModelNoti);
                         }
 
 
@@ -139,8 +147,23 @@ public class RequestsAndNoti extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new DataAdapter(mArrayList);
+        mAdapter = new RequestsAdapter(mArrayList);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                RequestsAndNotiModel temp =mArrayList.get(position);
+                Intent x = new Intent(getActivity(), AskRequset.class);
+                x.putExtra("name",temp.getUsername());
+                x.putExtra("uid",temp.getUser_id());
+                startActivity(x);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
     }
 
@@ -180,6 +203,53 @@ public class RequestsAndNoti extends Fragment {
             }
         });
     }
+    public interface ClickListener {
+        void onClick(View view, int position);
 
+        void onLongClick(View view, int position);
+    }
+
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private RequestsAndNoti.ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final RequestsAndNoti.ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
 
 }

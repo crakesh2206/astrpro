@@ -9,26 +9,50 @@
 
     card_view:cardCornerRadius="2dp">
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@color/mdtp_line_dark"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_name"
-             android:textColor="@color/md_black_1000"
-            android:layout_marginBottom="10dp"
-            android:text="Rakesh"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="10dp"
+            android:background="@color/md_green_700"
+            android:layout_height="match_parent"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
-        <TextView
-            android:text="Rakesh"
-            android:id="@+id/tv_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:padding="10dp"
+            android:background="@color/md_white_1000"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_name"
+                android:textColor="@color/md_green_900"
+                android:layout_marginBottom="10dp"
+                android:text="Rakesh"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+            <TextView
+                android:text="Rakesh"
+                android:layout_below="@+id/tv_name"
+                android:id="@+id/tv_version"
+                android:textColor="@color/md_black_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
+            <TextView
+                android:id="@+id/tv_time"
+                android:textColor="@color/md_green_900"
+                android:text="07/07/2017"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:layout_alignBottom="@+id/tv_name"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
