@@ -9,11 +9,20 @@ import com.rj.astro.activities.Step;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.lang.String;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
+    public static final String NEW_MESSAGE = "rj.takedata";
+    public static final String QID ="qqid" ;
+    public static final String CAT = "catgory" ;
+    public static final String SUBCAT = "subcatgory" ;
+    public static final String QUESS = "quess" ;
+    public static final String USER_I_D = "us_id" ;
+    public static final String USER_TY = "user_ty";
+    public static final String TYM = "tym";
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -49,6 +58,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String user_id = data.getString("user_id");
             String time_a = data.getString("time_a");
             String usertype = data.getString("usertype");
+            String qid = data.getString("qid");
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+
+
+
+                }
+            }).start();
 
             //creating MyNotificationManager object
             MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());

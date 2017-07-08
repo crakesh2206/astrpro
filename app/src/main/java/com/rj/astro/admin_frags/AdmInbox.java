@@ -1,5 +1,8 @@
 package com.rj.astro.admin_frags;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;
+import com.rj.astro.simplified.MyFirebaseMessagingService;
 import com.rj.astro.util.NetworkStateChecker;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
@@ -114,7 +118,24 @@ public class AdmInbox extends Fragment {
 
         return root;
     }
+    private BroadcastReceiver mMsgReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equalsIgnoreCase(MyFirebaseMessagingService.NEW_MESSAGE)){
+                Bundle extra = intent.getExtras();
+                String qID = extra.getString(MyFirebaseMessagingService.QID);
+                String sCat = extra.getString(MyFirebaseMessagingService.CAT);
+                String sSubCat = extra.getString(MyFirebaseMessagingService.SUBCAT);
+                String sQues = extra.getString(MyFirebaseMessagingService.QUESS);
+                String sUsertype = extra.getString(MyFirebaseMessagingService.USER_TY);
+                String sUserId = extra.getString(MyFirebaseMessagingService.USER_I_D);
+                String sTym = extra.getString(MyFirebaseMessagingService.TYM);
 
+
+            }
+        }
+    };
 
     public void getDataToServer() {
 
