@@ -10,7 +10,7 @@ import com.rj.astro.R;
 /**
  * Created by Codefingers-1 on 23-05-2017.
  */
-public class AskRequset  extends AppCompatActivity{
+public class AdminText extends AppCompatActivity{
     private Toolbar toolbar;
 
     @Override

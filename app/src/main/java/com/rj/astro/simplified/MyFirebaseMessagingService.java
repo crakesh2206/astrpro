@@ -43,6 +43,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String message = data.getString("message");
             String imageUrl = data.getString("image");
 
+            String cat = data.getString("catagory");
+            String sub_cat = data.getString("sub_catagory");
+            String ques = data.getString("ques");
+            String user_id = data.getString("user_id");
+            String time_a = data.getString("time_a");
+            String usertype = data.getString("usertype");
+
             //creating MyNotificationManager object
             MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
 

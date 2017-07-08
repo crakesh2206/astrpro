@@ -17,6 +17,6 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.rj.astro.frags.InboxFragment"
+        android:name="com.rj.astro.admin_frags.AdmInbox"
         android:id="@+id/fragment" />
 </LinearLayout>

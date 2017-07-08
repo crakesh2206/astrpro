@@ -25,7 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.rj.astro.R;
-import com.rj.astro.activities.AskRequset;
+import com.rj.astro.activities.AdminText;
 import com.rj.astro.androidRecyclerView.RequestsAdapter;
 import com.rj.astro.androidRecyclerView.RequestsAndNotiModel;
 import com.rj.astro.volly.AppController;
@@ -153,7 +153,7 @@ public class RequestsAndNoti extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 RequestsAndNotiModel temp =mArrayList.get(position);
-                Intent x = new Intent(getActivity(), AskRequset.class);
+                Intent x = new Intent(getActivity(), AdminText.class);
                 x.putExtra("name",temp.getUsername());
                 x.putExtra("uid",temp.getUser_id());
                 startActivity(x);
