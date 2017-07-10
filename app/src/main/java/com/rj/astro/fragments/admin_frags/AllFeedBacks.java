@@ -1,4 +1,4 @@
-package com.rj.astro.admin_frags;
+package com.rj.astro.fragments.admin_frags;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

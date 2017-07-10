@@ -1,4 +1,4 @@
-package com.rj.astro.admin_frags;
+package com.rj.astro.fragments.admin_frags;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.rj.astro.R;
-import com.rj.astro.activities.AdminText;
+import com.rj.astro.activities.admin.AdminText;
 import com.rj.astro.androidRecyclerView.RequestsAdapter;
 import com.rj.astro.androidRecyclerView.RequestsAndNotiModel;
 import com.rj.astro.volly.AppController;

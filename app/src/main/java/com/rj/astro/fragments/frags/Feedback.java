@@ -1,4 +1,4 @@
-package com.rj.astro.frags;
+package com.rj.astro.fragments.frags;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

@@ -23,6 +23,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rj.astro.R;
+import com.rj.astro.activities.admin.AdminPanelActivity;
+import com.rj.astro.activities.user.NormalUserActivity;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;

@@ -33,6 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
 //questaiontab
 
     private static final String TABLE_QUESTIONS = "questions";
+    private static final String TABLE_QUESTIONS_FOR_ADMIN = "questionsadmin";
     private static final String KEY_QID = "qid";
     private static final String KEY_CATAGORY = "catagory";
     private static final String KEY_SUB_CATAGORY = "sub_catagory";
@@ -70,7 +71,16 @@ public class DbHelper extends SQLiteOpenHelper {
             + KEY_TIME + " TEXT,"
             + KEY_USERTYPE + " TEXT,"
             + KEY_TOWHO + " TEXT" + ")";
-
+    private static final String CREATE_TABLE_QUESTIONS_ADMIN = "CREATE TABLE "
+            + TABLE_QUESTIONS_FOR_ADMIN + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_QID + " INTEGER,"
+            + KEY_CATAGORY + " TEXT,"
+            + KEY_SUB_CATAGORY + " TEXT,"
+            + KEY_QUESTION + " TEXT,"
+            + KEY_USER_ID + " TEXT,"
+            + KEY_TIME + " TEXT,"
+            + KEY_USERTYPE + " TEXT,"
+            + KEY_TOWHO + " TEXT" + ")";
 
 
     private static final String CREATE_TABLE_FEEDBACKS = "CREATE TABLE "
@@ -105,6 +115,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_QUESTIONS);
+        db.execSQL(CREATE_TABLE_QUESTIONS_ADMIN);
         db.execSQL(CREATE_TABLE_FEEDBACKS);
     }
 
@@ -113,6 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS_FOR_ADMIN);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FEEDBACK);
 
         // create new tables
@@ -168,10 +180,65 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
     }
+    public void createQUESTION_ADMIN(Questions ques) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_QID, ques.KEY_QID);
+        values.put(KEY_CATAGORY,ques.KEY_CATAGORY );
+        values.put(KEY_SUB_CATAGORY, ques.KEY_SUB_CATAGORY);
+        values.put(KEY_QUESTION, ques.KEY_QUESTION);
+        values.put(KEY_USER_ID, ques.KEY_USER_ID);
+        values.put(KEY_USERTYPE, ques.KEY_USERTYPE);
+        values.put(KEY_TIME, ques.KEY_TIME);
+        values.put(KEY_TOWHO, ques.KEY_TOWHO);
+
+
+        // updating row
+        int count =  db.update(TABLE_QUESTIONS_FOR_ADMIN, values, KEY_QID + " = ?",
+                new String[] { String.valueOf(ques.KEY_QID) });
+        if(count==0){
+            // insert row
+            db.insert(TABLE_QUESTIONS_FOR_ADMIN, null, values);
+        }
+
+    }
 
     public List<Questions> getAllQuestions(int userid) {
         List<Questions> quess = new ArrayList<Questions>();
         String selectQuery = "SELECT  * FROM " + TABLE_QUESTIONS+ " where "+KEY_USER_ID+" = "+userid+" order by "+KEY_TIME+" ASC";
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Questions qs = new Questions();
+                qs.KEY_ID = String.valueOf(c.getInt((c.getColumnIndex(KEY_ID))));
+                qs.KEY_QID = String.valueOf(c.getInt((c.getColumnIndex(KEY_QID))));
+                qs.KEY_CATAGORY = String.valueOf(c.getString((c.getColumnIndex(KEY_CATAGORY))));
+                qs.KEY_SUB_CATAGORY = String.valueOf(c.getString((c.getColumnIndex(KEY_SUB_CATAGORY))));
+                qs.KEY_QUESTION = String.valueOf(c.getString((c.getColumnIndex(KEY_QUESTION))));
+                qs.KEY_USER_ID = String.valueOf(c.getString((c.getColumnIndex(KEY_USER_ID))));
+                qs.KEY_TIME = String.valueOf(c.getString((c.getColumnIndex(KEY_TIME))));
+                qs.KEY_TOWHO = String.valueOf(c.getString((c.getColumnIndex(KEY_TOWHO))));
+                qs.KEY_USERTYPE = String.valueOf(c.getString((c.getColumnIndex(KEY_USERTYPE))));
+
+
+                // adding to todo list
+                quess.add(qs);
+            } while (c.moveToNext());
+        }
+
+        return quess;
+
+
+    }
+    public List<Questions> getAllQuestionsForAdmin(int userid) {
+        List<Questions> quess = new ArrayList<Questions>();
+        String selectQuery = "SELECT  * FROM " + TABLE_QUESTIONS_FOR_ADMIN+ " where "+KEY_USER_ID+" = "+userid+" order by "+KEY_TIME+" ASC";
 
 
         SQLiteDatabase db = this.getReadableDatabase();

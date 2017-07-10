@@ -14,9 +14,9 @@
 
         </activity>
 
-        <activity android:name=".activities.AdminPanelActivity" />
-        <activity android:name=".activities.AdminText" />
-        <activity android:name=".activities.NormalUserActivity"
+        <activity android:name=".activities.admin.AdminPanelActivity" />
+        <activity android:name=".activities.admin.AdminText" />
+        <activity android:name=".activities.user.NormalUserActivity"
 
                         />
 
@@ -28,7 +28,7 @@
 
         <activity android:name=".activities.LoginActivity"/>
 
-        <activity android:name=".activities.Add"/>
+        <activity android:name=".activities.user.AddQuestion"/>
 
 
 

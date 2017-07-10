@@ -1,4 +1,4 @@
-package com.rj.astro.activities;
+package com.rj.astro.activities.admin;
 
 
 import android.content.Intent;
@@ -25,9 +25,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.materialdrawer.util.KeyboardUtil;
 import com.rj.astro.R;
-import com.rj.astro.admin_frags.AllFeedBacks;
-import com.rj.astro.admin_frags.AllUsers;
-import com.rj.astro.admin_frags.RequestsAndNoti;
+import com.rj.astro.activities.LoginActivity;
+import com.rj.astro.fragments.admin_frags.AllFeedBacks;
+import com.rj.astro.fragments.admin_frags.AllUsers;
+import com.rj.astro.fragments.admin_frags.RequestsAndNoti;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;

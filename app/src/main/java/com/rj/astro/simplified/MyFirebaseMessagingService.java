@@ -52,19 +52,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String message = data.getString("message");
             String imageUrl = data.getString("image");
 
-            String cat = data.getString("catagory");
-            String sub_cat = data.getString("sub_catagory");
-            String ques = data.getString("ques");
-            String user_id = data.getString("user_id");
-            String time_a = data.getString("time_a");
-            String usertype = data.getString("usertype");
-            String qid = data.getString("qid");
+            final String cat = data.getString("catagory");
+            final String sub_cat = data.getString("sub_catagoty");
+            final String ques = data.getString("ques");
+            final String user_id = data.getString("user_id");
+            final String time_a = data.getString("time_a");
+            final String usertype = data.getString("usertype");
+            final String qid = String.valueOf(data.getJSONArray("qid").get(0));
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
 
-
+                  Intent i = new Intent(NEW_MESSAGE);
+                    i.putExtra(CAT,cat);
+                    i.putExtra(SUBCAT,sub_cat);
+                    i.putExtra(QUESS,ques);
+                    i.putExtra(USER_I_D,user_id);
+                    i.putExtra(TYM,time_a);
+                    i.putExtra(USER_TY,usertype);
+                    i.putExtra(QID,qid);
+                    sendBroadcast(i);
 
 
 

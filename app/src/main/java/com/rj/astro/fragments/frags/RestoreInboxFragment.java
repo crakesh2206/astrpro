@@ -1,4 +1,4 @@
-package com.rj.astro.frags;
+package com.rj.astro.fragments.frags;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +23,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
-import com.rj.astro.activities.Add;
+import com.rj.astro.activities.user.AddQuestion;
 import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
@@ -96,7 +96,7 @@ public class RestoreInboxFragment extends Fragment{
                 if(pRef.isUserisAdmin()){
 
                 }else{
-                    sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), Add.setCreated(), "user", pRef.getUserName());
+                    sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), AddQuestion.setCreated(), "user", pRef.getUserName());
                 }
             }
         });

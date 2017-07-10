@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rj.astro.R;
+import com.rj.astro.activities.admin.AdminPanelActivity;
+import com.rj.astro.activities.user.NormalUserActivity;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;

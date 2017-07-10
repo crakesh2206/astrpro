@@ -1,4 +1,4 @@
-package com.rj.astro.activities;
+package com.rj.astro.activities.user;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ import static com.rj.astro.R.id.btnCancle;
  * Created by Codefingers-1 on 30-05-2017.
  */
 
-public class Add extends AppCompatActivity {
+public class AddQuestion extends AppCompatActivity {
     private Spinner spinCatagory;
     private Spinner spinSubCatagory;
     private ArrayList<String> catagoryList;
@@ -66,7 +66,7 @@ public class Add extends AppCompatActivity {
         subCatagorylist = new ArrayList<String>();
         subCatagorylist.add("Select Subcatagory");
 
-        pDialog = new ProgressDialog(Add.this);
+        pDialog = new ProgressDialog(AddQuestion.this);
         pDialog.setMessage("Loading...");
 
         // Creating adapter for spinner
@@ -140,7 +140,7 @@ public class Add extends AppCompatActivity {
                 params.put("time",time);
                 params.put("usertype",usertype);
                 params.put("username",userName);
-                params.put("towho","35");
+                params.put("towho","32");
 
                 return params;
             }};

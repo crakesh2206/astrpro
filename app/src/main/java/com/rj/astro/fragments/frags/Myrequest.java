@@ -1,4 +1,4 @@
-package com.rj.astro.frags;
+package com.rj.astro.fragments.frags;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.rj.astro.R;
-import com.rj.astro.activities.Add;
+import com.rj.astro.activities.user.AddQuestion;
 
 
 /**
@@ -34,7 +34,7 @@ public class Myrequest extends Fragment {
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(),Add.class);
+                Intent i = new Intent(getActivity(),AddQuestion.class);
                 startActivity(i);
             }
         });

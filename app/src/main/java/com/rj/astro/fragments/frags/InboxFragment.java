@@ -1,8 +1,5 @@
-package com.rj.astro.admin_frags;
+package com.rj.astro.fragments.frags;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -27,12 +24,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.rj.astro.R;
-import com.rj.astro.activities.Add;
+import com.rj.astro.activities.user.AddQuestion;
 import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;
-import com.rj.astro.simplified.MyFirebaseMessagingService;
 import com.rj.astro.util.NetworkStateChecker;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
@@ -50,11 +46,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Codefingers-1 on 06-06-2017.
+ * Created by Codefingers-1 on 01-06-2017.
  */
 
-public class AdmInbox extends Fragment {
-
+public class InboxFragment extends Fragment {
 
 
     //1 means data is synced and 0 means data is not synced
@@ -73,8 +68,8 @@ public class AdmInbox extends Fragment {
     private ProgressBar mProgress;
     private RelativeLayout mNodata;
 
-    public static AdmInbox newInstance() {
-        AdmInbox f = new AdmInbox();
+    public static InboxFragment newInstance() {
+        InboxFragment f = new InboxFragment();
         return (f);
     }
 
@@ -99,8 +94,9 @@ public class AdmInbox extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        messageList = dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
         mAdapter = new MessageAdapter(getActivity(), messageList);
-
+          getQuestionListFromServer();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mSend.setOnClickListener(new View.OnClickListener() {
@@ -111,33 +107,16 @@ public class AdmInbox extends Fragment {
                 } else {
 
 
-                    sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), Add.setCreated(), "user", pRef.getUserName());
+                    sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), AddQuestion.setCreated(), "user", pRef.getUserName());
                 }
             }
         });
 
         return root;
     }
-    private BroadcastReceiver mMsgReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equalsIgnoreCase(MyFirebaseMessagingService.NEW_MESSAGE)){
-                Bundle extra = intent.getExtras();
-                String qID = extra.getString(MyFirebaseMessagingService.QID);
-                String sCat = extra.getString(MyFirebaseMessagingService.CAT);
-                String sSubCat = extra.getString(MyFirebaseMessagingService.SUBCAT);
-                String sQues = extra.getString(MyFirebaseMessagingService.QUESS);
-                String sUsertype = extra.getString(MyFirebaseMessagingService.USER_TY);
-                String sUserId = extra.getString(MyFirebaseMessagingService.USER_I_D);
-                String sTym = extra.getString(MyFirebaseMessagingService.TYM);
 
 
-            }
-        }
-    };
-
-    public void getDataToServer() {
+    public void getQuestionListFromServer() {
 
 
         // Tag used to cancel the request
@@ -151,7 +130,7 @@ public class AdmInbox extends Fragment {
                     String error = response.getString("error");
 
                     if (error.equals("false")) {
-
+                        messageList.clear();
                         JSONArray resType = response.getJSONArray("questions");
                         for (int i = 0; i < resType.length(); i++) {
                             JSONObject obj = resType.getJSONObject(i);
@@ -165,12 +144,14 @@ public class AdmInbox extends Fragment {
                             ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
                             dbHelper.createQUESTION(ques);
+
                             messageList.add(ques);
 
                         }
 
 
                         mAdapter.notifyDataSetChanged();
+
 
                     } else {
                         Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
@@ -185,7 +166,7 @@ public class AdmInbox extends Fragment {
 
                 mAdapter.notifyDataSetChanged();
 
-
+                mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView,null, messageList.size()-1);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -215,14 +196,17 @@ public class AdmInbox extends Fragment {
 
                 try {
                     JSONObject obj = new JSONObject(response);
-                    if (!obj.getBoolean("error")) {
+                    if (!obj.has("error")) {
                         //if there is a success
                         //storing the name to sqlite with status synced
+                          getQuestionListFromServer();
+
                         saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_SYNCED_WITH_SERVER);
+
                     } else {
                         //if there is some error
                         //saving the name to sqlite with status unsynced
-                        // saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
+                       // saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -238,7 +222,7 @@ public class AdmInbox extends Fragment {
                 VolleyLog.d("eerror", "Error: " + error.getMessage());
 
                 //on error storing the name to sqlite with status unsynced
-                //  saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
+              //  saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_NOT_SYNCED_WITH_SERVER);
 
 
             }
@@ -252,7 +236,7 @@ public class AdmInbox extends Fragment {
                 params.put("time", time);
                 params.put("usertype", usertype);
                 params.put("username", userName);
-                params.put("towho", "admin");
+                params.put("towho", "32");
 
                 return params;
             }
@@ -272,5 +256,4 @@ public class AdmInbox extends Fragment {
         Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
-
 }
