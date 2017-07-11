@@ -15,13 +15,15 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
+    private final boolean isAdmin;
     private List<Questions> messageList;
 
     public static final int SENDER = 0;
     public static final int RECIPIENT = 1;
 
-    public MessageAdapter(Context context, List<Questions> messages) {
+    public MessageAdapter(Context context, List<Questions> messages,boolean ustype) {
         messageList = messages;
+        this.isAdmin = ustype;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,12 +75,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public int getItemViewType(int position) {
         Questions message = messageList.get(position);
-
-        if (message.KEY_USERTYPE.equals("user")) {
-            return SENDER;
-        } else {
-            return RECIPIENT;
+        int typs = 0;
+        if(isAdmin){
+            if (message.KEY_USERTYPE.equals("admin")) {
+                typs = SENDER;
+            } else {
+                typs = RECIPIENT;
+            }
+        }else {
+            if (message.KEY_USERTYPE.equals("user")) {
+                typs = SENDER;
+            } else {
+                typs = RECIPIENT;
+            }
         }
+
+
+       return typs;
 
     }
 

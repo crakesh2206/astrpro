@@ -16,7 +16,7 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
 
 //qid ques user_id tm usertype towho
-    private static final int VERSION =1 ;
+    private static final int VERSION =2 ;
     private static final String DATABASENAME = "astr";
     //users
     private static final String TABLE_USERS = "users";

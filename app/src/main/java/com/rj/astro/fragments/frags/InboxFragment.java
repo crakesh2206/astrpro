@@ -95,7 +95,7 @@ public class InboxFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         messageList = dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
-        mAdapter = new MessageAdapter(getActivity(), messageList);
+        mAdapter = new MessageAdapter(getActivity(), messageList,pRef.isUserisAdmin());
           getQuestionListFromServer();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

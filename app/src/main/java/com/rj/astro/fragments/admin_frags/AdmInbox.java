@@ -101,23 +101,21 @@ public class AdmInbox extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         messageList = dbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid));
-        mAdapter = new MessageAdapter(getActivity(), messageList);
+        mAdapter = new MessageAdapter(getActivity(), messageList,pRef.isUserisAdmin());
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pRef.isUserisAdmin()) {
-
-                } else {
 
 
-                    sentToServer("", "", mEditSent.getText().toString(), pRef.getUserId(), AddQuestion.setCreated(), "user", pRef.getUserName());
-                }
+
+                    sentToServer("", "", mEditSent.getText().toString(), AdminText.uid, AddQuestion.setCreated(), "admin", pRef.getUserName());
+
             }
         });
-        getDataToServer();
+        getQuestionListFromServer();
         return root;
     }
     private BroadcastReceiver mMsgReceiver = new BroadcastReceiver() {
@@ -155,7 +153,7 @@ public class AdmInbox extends Fragment {
         }
     };
 
-    public void getDataToServer() {
+    public void getQuestionListFromServer() {
 
 
         // Tag used to cancel the request
@@ -233,10 +231,13 @@ public class AdmInbox extends Fragment {
 
                 try {
                     JSONObject obj = new JSONObject(response);
-                    if (!obj.getBoolean("error")) {
+                    if (!obj.has("error")) {
                         //if there is a success
                         //storing the name to sqlite with status synced
-                    //    saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_SYNCED_WITH_SERVER);
+                        getQuestionListFromServer();
+
+                        saveNameToLocalStorage(ques,userId,time ,usertype,userName,"admin",NAME_SYNCED_WITH_SERVER);
+
                     } else {
                         //if there is some error
                         //saving the name to sqlite with status unsynced
@@ -267,10 +268,10 @@ public class AdmInbox extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ques", ques);
-                params.put("user_id", userId);
+                params.put("user_id",userId);
                 params.put("time", time);
                 params.put("usertype", usertype);
-                params.put("username", userName);
+                params.put("username", "Admin");
                 params.put("towho", AdminText.uid); //32 admin
 
                 return params;

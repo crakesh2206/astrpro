@@ -84,7 +84,7 @@ public class RestoreInboxFragment extends Fragment{
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MessageAdapter(getActivity(), messageList);
+        //mAdapter = new MessageAdapter(getActivity(), messageList);
        // getDataToServer();
         generatedummy();
 
