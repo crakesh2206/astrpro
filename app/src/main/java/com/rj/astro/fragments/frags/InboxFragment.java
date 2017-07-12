@@ -145,10 +145,10 @@ public class InboxFragment extends Fragment {
                             ques.KEY_TOWHO = obj.getString("towho");
                             dbHelper.createQUESTION(ques);
 
-                            messageList.add(ques);
+                          //  messageList.add(ques);
 
                         }
-
+                         messageList.addAll(dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
 
                         mAdapter.notifyDataSetChanged();
 
