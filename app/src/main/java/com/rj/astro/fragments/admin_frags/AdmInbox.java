@@ -181,11 +181,13 @@ public class AdmInbox extends Fragment {
                             ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
                             dbHelper.createQUESTION_ADMIN(ques);
-                            messageList.add(ques);
+                          //  messageList.add(ques);
 
                         }
 
+                        messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
 
+                        mAdapter.notifyDataSetChanged();
 
 
                     } else {
