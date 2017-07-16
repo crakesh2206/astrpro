@@ -61,7 +61,7 @@ public class InboxFragment extends Fragment {
     private MessageAdapter mAdapter;
     private List<Questions> messageList;
 
-    private DbHelper dbHelper;
+    private DbHelper DbHelper;
     ImageView mSend;
     private PrefManager pRef;
     private EditText mEditSent;
@@ -76,7 +76,7 @@ public class InboxFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DbHelper(getActivity());
+        DbHelper = new DbHelper(getActivity());
         pRef = new PrefManager(getActivity());
         getActivity().registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
@@ -94,7 +94,7 @@ public class InboxFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        messageList = dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
+        messageList = DbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
         mAdapter = new MessageAdapter(getActivity(), messageList,pRef.isUserisAdmin());
           getQuestionListFromServer();
         mRecyclerView.setAdapter(mAdapter);
@@ -143,12 +143,12 @@ public class InboxFragment extends Fragment {
                             ques.KEY_USER_ID = obj.getString("user_id");
                             ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
-                            dbHelper.createQUESTION(ques);
+                            DbHelper.createQUESTION(ques);
 
                           //  messageList.add(ques);
 
                         }
-                         messageList.addAll(dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
+                         messageList.addAll(DbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
 
                         mAdapter.notifyDataSetChanged();
 

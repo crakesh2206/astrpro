@@ -31,6 +31,7 @@ import com.rj.astro.activities.admin.AdminText;
 import com.rj.astro.activities.user.AddQuestion;
 import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
+
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;
 import com.rj.astro.simplified.MyFirebaseMessagingService;
@@ -67,7 +68,7 @@ public class AdmInbox extends Fragment {
     private MessageAdapter mAdapter;
     private List<Questions> messageList;
 
-    private DbHelper dbHelper;
+    private DbHelper DbHelper;
     ImageView mSend;
     private PrefManager pRef;
     private EditText mEditSent;
@@ -82,7 +83,7 @@ public class AdmInbox extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DbHelper(getActivity());
+        DbHelper = new DbHelper(getActivity());
         pRef = new PrefManager(getActivity());
         getActivity().registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
@@ -100,7 +101,7 @@ public class AdmInbox extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        messageList = dbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid));
+        messageList = DbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid));
         mAdapter = new MessageAdapter(getActivity(), messageList,pRef.isUserisAdmin());
 
         mRecyclerView.setAdapter(mAdapter);
@@ -141,10 +142,10 @@ public class AdmInbox extends Fragment {
                 q.KEY_USER_ID = sUserId;
                 q.KEY_USERTYPE = sUsertype;
                 q.KEY_TIME =sTym;
-               dbHelper.createQUESTION_ADMIN(q);
+               DbHelper.createQUESTION_ADMIN(q);
 
                 messageList.clear();
-                messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
+                messageList.addAll(DbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
 
                 mAdapter.notifyDataSetChanged();
                 mLayoutManager.scrollToPosition(messageList.size());
@@ -180,12 +181,12 @@ public class AdmInbox extends Fragment {
                             ques.KEY_USER_ID = obj.getString("user_id");
                             ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
-                            dbHelper.createQUESTION_ADMIN(ques);
+                            DbHelper.createQUESTION_ADMIN(ques);
                           //  messageList.add(ques);
 
                         }
 
-                        messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
+                        messageList.addAll(DbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
 
                         mAdapter.notifyDataSetChanged();
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-//qid ques user_id tm usertype towho
+    //qid ques user_id tm usertype towho
     private static final int VERSION =2 ;
     private static final String DATABASENAME = "astr";
     //users
@@ -156,7 +156,7 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
 
-     }
+    }
     public void createQUESTION(Questions ques) {
         SQLiteDatabase db = this.getWritableDatabase();
 

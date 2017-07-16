@@ -20,13 +20,13 @@ import com.rj.astro.databases.Questions;
 public class Step extends AppCompatActivity {
     private static final long SPLASH_TIME_OUT = 3000;
     PrefManager prefs;
-    DbHelper dbHelper;
+    DbHelper DbHelper;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slps);
         prefs = new PrefManager(this);
-        dbHelper = new DbHelper(this);
+        DbHelper = new DbHelper(this);
 
 
 
@@ -92,10 +92,10 @@ public class Step extends AppCompatActivity {
                         qs3.KEY_USERTYPE = "admin";
                         qs3.KEY_TOWHO = "admin";
 
-                        dbHelper.createQUESTION(qs);
-                        dbHelper.createQUESTION(qs1);
-                        dbHelper.createQUESTION(qs2);
-                        dbHelper.createQUESTION(qs3);
+                        DbHelper.createQUESTION(qs);
+                        DbHelper.createQUESTION(qs1);
+                        DbHelper.createQUESTION(qs2);
+                        DbHelper.createQUESTION(qs3);
 
                         Intent i = new Intent(Step.this,NormalUserActivity.class);
                         i.putExtra("from","step");

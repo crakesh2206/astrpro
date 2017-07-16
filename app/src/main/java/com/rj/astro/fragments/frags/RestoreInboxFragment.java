@@ -51,7 +51,7 @@ public class RestoreInboxFragment extends Fragment{
     private MessageAdapter mAdapter;
     private List<Questions> messageList;
     private Handler handler;
-    private DbHelper dbHelper;
+    private DbHelper DbHelper;
     ImageView mSend;
     private PrefManager pRef;
     private EditText mEditSent;
@@ -67,7 +67,7 @@ public class RestoreInboxFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DbHelper(getActivity());
+        DbHelper = new DbHelper(getActivity());
         pRef = new PrefManager(getActivity());
     }
 
@@ -144,7 +144,7 @@ public class RestoreInboxFragment extends Fragment{
 //        messageList.add(msg5);
 //
 
-        messageList.addAll(dbHelper.getAllQuestions(32));
+        messageList.addAll(DbHelper.getAllQuestions(32));
         mAdapter.notifyDataSetChanged();
         if(mAdapter.getItemCount()==0){
 
@@ -178,7 +178,7 @@ public class RestoreInboxFragment extends Fragment{
                             ques.KEY_USER_ID = obj.getString("user_id");
                               ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
-                           dbHelper.createQUESTION(ques);
+                           DbHelper.createQUESTION(ques);
                           messageList.add(ques);
 
                         }
