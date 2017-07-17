@@ -160,7 +160,9 @@ public class InboxFragment extends Fragment {
 
 
                 } catch (JSONException e) {
+
                     e.printStackTrace();
+
                 }
 
 
@@ -252,6 +254,7 @@ public class InboxFragment extends Fragment {
     }
 
     public String convertTime(long time) {
+
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
