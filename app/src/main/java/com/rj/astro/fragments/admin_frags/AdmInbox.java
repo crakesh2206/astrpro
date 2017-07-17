@@ -80,6 +80,16 @@ public class AdmInbox extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(MyFirebaseMessagingService.NEW_MESSAGE);
+
+
+
+        getActivity().registerReceiver(mMsgReceiver,filter);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DbHelper(getActivity());
@@ -109,10 +119,10 @@ public class AdmInbox extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
+               String rj =mEditSent.getText().toString();
+                if(!rj.equals("")) {
                     sentToServer("", "", mEditSent.getText().toString(), AdminText.uid, AddQuestion.setCreated(), "admin", pRef.getUserName());
-
+                }
             }
         });
         getQuestionListFromServer();
@@ -144,7 +154,7 @@ public class AdmInbox extends Fragment {
                dbHelper.createQUESTION_ADMIN(q);
 
                 messageList.clear();
-                messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
+                messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
 
                 mAdapter.notifyDataSetChanged();
                 mLayoutManager.scrollToPosition(messageList.size());
@@ -152,6 +162,12 @@ public class AdmInbox extends Fragment {
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mMsgReceiver);
+    }
 
     public void getQuestionListFromServer() {
 
