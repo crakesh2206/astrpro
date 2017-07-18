@@ -6,10 +6,10 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.rj.astro.activities.Step;
+import com.rj.astro.activities.admin.AdminText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.lang.String;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -83,8 +83,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
 
             //creating an intent for the notification
-            Intent intent = new Intent(getApplicationContext(), Step.class);
-
+            Intent intent;
+            if(usertype.equals("user")) {
+                intent = new Intent(getApplicationContext(), Step.class);
+            }else{
+                intent = new Intent(getApplicationContext(), AdminText.class);
+                intent.putExtra("name",title);
+                intent.putExtra("uid",user_id);
+            }
             //if there is no image
             if(imageUrl.equals("null")){
                 //displaying small notification

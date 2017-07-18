@@ -1,5 +1,6 @@
 package com.rj.astro.androidRecyclerView;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         viewHolder.tv_name.setText("@"+mFilteredList.get(i).getUsername());
+        viewHolder.tv_name.setTypeface(null, Typeface.BOLD);
         viewHolder.tv_version.setText(mFilteredList.get(i).getQuestion());
 
     }

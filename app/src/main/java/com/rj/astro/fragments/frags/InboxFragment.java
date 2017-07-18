@@ -1,5 +1,8 @@
 package com.rj.astro.fragments.frags;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import com.rj.astro.androidRecyclerView.MessageAdapter;
 import com.rj.astro.databases.DbHelper;
 import com.rj.astro.databases.PrefManager;
 import com.rj.astro.databases.Questions;
+import com.rj.astro.simplified.MyFirebaseMessagingService;
 import com.rj.astro.util.NetworkStateChecker;
 import com.rj.astro.volly.AppController;
 import com.rj.astro.volly.ConstantLinks;
@@ -114,7 +118,55 @@ public class InboxFragment extends Fragment {
 
         return root;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(MyFirebaseMessagingService.NEW_MESSAGE);
 
+
+
+        getActivity().registerReceiver(mMsgReceiver,filter);
+    }
+    private BroadcastReceiver mMsgReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equalsIgnoreCase(MyFirebaseMessagingService.NEW_MESSAGE)){
+                Bundle extra = intent.getExtras();
+                String qID = extra.getString(MyFirebaseMessagingService.QID);
+                String sCat = extra.getString(MyFirebaseMessagingService.CAT);
+                String sSubCat = extra.getString(MyFirebaseMessagingService.SUBCAT);
+                String sQues = extra.getString(MyFirebaseMessagingService.QUESS);
+                String sUsertype = extra.getString(MyFirebaseMessagingService.USER_TY);
+                String sUserId = extra.getString(MyFirebaseMessagingService.USER_I_D);
+                String sTym = extra.getString(MyFirebaseMessagingService.TYM);
+
+                Questions q = new Questions();
+                q.KEY_QID = qID;
+                q.KEY_USER_ID = sUserId;
+                q.KEY_CATAGORY = sCat;
+                q.KEY_SUB_CATAGORY = sSubCat;
+                q.KEY_QUESTION = sQues;
+                q.KEY_USER_ID = sUserId;
+                q.KEY_USERTYPE = sUsertype;
+                q.KEY_TIME =sTym;
+                dbHelper.createQUESTION(q);
+
+                messageList.clear();
+                messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
+
+                mAdapter.notifyDataSetChanged();
+                mLayoutManager.scrollToPosition(messageList.size());
+
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mMsgReceiver);
+    }
 
     public void getQuestionListFromServer() {
 
@@ -258,5 +310,9 @@ public class InboxFragment extends Fragment {
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
+    }
+    public String datetoTime(String dt){
+
+        return null;
     }
 }

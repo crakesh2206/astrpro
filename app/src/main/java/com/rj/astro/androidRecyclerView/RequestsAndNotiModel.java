@@ -7,6 +7,17 @@ public class RequestsAndNotiModel {
     String user_id;
     String username;
     String question;
+    String phpid;
+
+    public String getPhpid() {
+        return phpid;
+    }
+
+    public void setPhpid(String phpid) {
+        this.phpid = phpid;
+    }
+
+
 
     public String getQuestion() {
         return question;
