@@ -65,7 +65,7 @@ public class InboxFragment extends Fragment {
     private MessageAdapter mAdapter;
     private List<Questions> messageList;
 
-    private DbHelper DbHelper;
+    private DbHelper dbHelper;
     ImageView mSend;
     private PrefManager pRef;
     private EditText mEditSent;
@@ -77,10 +77,11 @@ public class InboxFragment extends Fragment {
         return (f);
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DbHelper = new DbHelper(getActivity());
+        dbHelper = new DbHelper(getActivity());
         pRef = new PrefManager(getActivity());
         getActivity().registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
@@ -98,7 +99,7 @@ public class InboxFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        messageList = DbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
+        messageList = dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId()));
         mAdapter = new MessageAdapter(getActivity(), messageList,pRef.isUserisAdmin());
           getQuestionListFromServer();
         mRecyclerView.setAdapter(mAdapter);
@@ -195,12 +196,12 @@ public class InboxFragment extends Fragment {
                             ques.KEY_USER_ID = obj.getString("user_id");
                             ques.KEY_USERTYPE = obj.getString("usertype");
                             ques.KEY_TOWHO = obj.getString("towho");
-                            DbHelper.createQUESTION(ques);
+                            dbHelper.createQUESTION(ques);
 
                           //  messageList.add(ques);
 
                         }
-                         messageList.addAll(DbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
+                         messageList.addAll(dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
 
                         mAdapter.notifyDataSetChanged();
 

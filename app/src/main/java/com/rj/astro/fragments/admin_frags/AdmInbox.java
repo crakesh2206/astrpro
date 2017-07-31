@@ -81,6 +81,22 @@ public class AdmInbox extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(MyFirebaseMessagingService.NEW_MESSAGE);
+
+
+
+        getActivity().registerReceiver(mMsgReceiver,filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mMsgReceiver);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DbHelper = new DbHelper(getActivity());
@@ -145,7 +161,7 @@ public class AdmInbox extends Fragment {
                DbHelper.createQUESTION_ADMIN(q);
 
                 messageList.clear();
-                messageList.addAll(DbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
+                messageList.addAll(DbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
 
                 mAdapter.notifyDataSetChanged();
                 mLayoutManager.scrollToPosition(messageList.size());
