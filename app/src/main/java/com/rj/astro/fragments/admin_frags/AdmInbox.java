@@ -164,7 +164,8 @@ public class AdmInbox extends Fragment {
                 messageList.addAll(DbHelper.getAllQuestionsForAdmin(Integer.parseInt(AdminText.uid)));
 
                 mAdapter.notifyDataSetChanged();
-                mLayoutManager.scrollToPosition(messageList.size());
+
+                mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView,null, messageList.size()-1);
 
             }
         }

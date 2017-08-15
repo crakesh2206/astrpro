@@ -84,7 +84,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             //creating an intent for the notification
             Intent intent;
-            if(usertype.equals("user")) {
+            if(usertype.equals("admin")) {
                 intent = new Intent(getApplicationContext(), Step.class);
             }else{
                 intent = new Intent(getApplicationContext(), AdminText.class);

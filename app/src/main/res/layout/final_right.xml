@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
 
     android:layout_height="wrap_content">
 
@@ -21,7 +21,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="100dp"
             android:background="@drawable/rounded_corner"
-            android:padding="16dp"
+            android:padding="8dp"
+
             android:text="public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState        View root = inflater.inflate(R.layout.frag_inbox,container,false);"
             android:textColor="#fff" />
 
@@ -41,8 +42,17 @@
 
             android:layout_marginTop="0dp"
 
-            android:src="@drawable/user_pacific" />
+            android:src="@mipmap/ic_users" />
 
     </LinearLayout>
+    <TextView
 
+        android:text="7:30PM"
+        android:textColor="@color/colorAccent"
+        android:layout_gravity="right"
+        android:textSize="8dp"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTimeofmsg" />
 </LinearLayout>

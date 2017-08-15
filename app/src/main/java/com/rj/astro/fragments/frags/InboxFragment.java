@@ -154,10 +154,10 @@ public class InboxFragment extends Fragment {
                 dbHelper.createQUESTION(q);
 
                 messageList.clear();
-                messageList.addAll(dbHelper.getAllQuestionsForAdmin(Integer.parseInt(pRef.getUserId())));
+                messageList.addAll(dbHelper.getAllQuestions(Integer.parseInt(pRef.getUserId())));
 
                 mAdapter.notifyDataSetChanged();
-                mLayoutManager.scrollToPosition(messageList.size());
+                mRecyclerView.getLayoutManager().smoothScrollToPosition(mRecyclerView,null, messageList.size()-1);
 
             }
         }

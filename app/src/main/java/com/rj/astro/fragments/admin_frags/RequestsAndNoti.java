@@ -90,7 +90,7 @@ public class RequestsAndNoti extends Fragment {
 
         // Tag used to cancel the request
         String  obj_req = "obj_req";
-
+                   mArrayList.clear();
         JsonObjectRequest objJsonreq = new JsonObjectRequest(Request.Method.POST,
                 ConstantLinks.REQUESTS_ALL,null, new Response.Listener<JSONObject>() {
             @Override
